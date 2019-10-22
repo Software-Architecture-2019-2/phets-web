@@ -2,7 +2,9 @@
   <div class="container">
     <div>
       <logo />
-      <h1 class="title">phets-web</h1>
+      <h1 class="title">
+        Home
+      </h1>
       <h2 class="subtitle">
         Presentation component for Phets software system.
       </h2>
@@ -26,9 +28,18 @@
 import Logo from '~/components/Logo.vue'
 
 export default {
-  layout: 'index',
   components: {
     Logo,
+  },
+
+  computed: {
+    profile() {
+      console.log(this.$store)
+      return this.$store.todo.lists
+    },
+  },
+  created() {
+    console.log(this)
   },
 }
 </script>
