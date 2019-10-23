@@ -90,7 +90,8 @@ export default {
     },
   },
   created() {
-    this.authenticate('bsavilanr@slabcode.com', 'MYPASS')
+    // this.authenticate('bsavilanr@slabcode.com', 'MYPASS')
+    this.$store.dispatch(ACTIONS.ANIMAL_LIST)
   },
   methods: {
     authenticate(username, password) {
