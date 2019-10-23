@@ -12,8 +12,39 @@
       <!-- Will set display: none style if false -->
       <div v-show="showDiv">Código oculdato con estilos</div>
 
-      <div v-for="number in array" :key="number" class="links">
-        {{ number }}
+      <div class="my-1">
+        <b-form-file
+          v-model="file"
+          :state="Boolean(file)"
+          placeholder="Selecciona un archivo o suéltalo acá..."
+          drop-placeholder="Suelta un archivo acá..."
+        />
+        <b-badge
+          v-for="(name, i) in filenames"
+          :key="i"
+          variant="info"
+          class="mx-1"
+        >
+          {{ name }}
+        </b-badge>
+      </div>
+
+      <div class="my-1">
+        <b-button variant="primary" @click="uploadFiles">
+          Subir archivos a Microservicio
+        </b-button>
+        <b-container fluid>
+          <b-row>
+            <b-col v-for="(id, i) in fileIds" :key="i">
+              <b-badge variant="info" class="mx-1">
+                {{ id }}
+              </b-badge>
+              <div class="w-100">
+                <file-preview :id="id" />
+              </div>
+            </b-col>
+          </b-row>
+        </b-container>
       </div>
     </div>
   </div>
@@ -21,11 +52,13 @@
 
 <script>
 import ExampleComp from '~/components/ExampleComp'
+import FilePreview from '~/components/FilePreview'
 import { ACTIONS } from '~/constants/VuexConstants'
 
 export default {
   components: {
     ExampleComp,
+    FilePreview,
   },
   props: {
     id: {
@@ -37,12 +70,23 @@ export default {
     return {
       pushDiv: false,
       showDiv: false,
+      file: undefined,
+      files: [],
+      fileIds: [],
       array: [1, 2, 3, 4, 5],
     }
   },
   computed: {
-    profile() {
-      return this.$store.state.todos
+    filenames() {
+      return this.files ? this.files.map((f) => f.name) : undefined
+    },
+  },
+  watch: {
+    file(file) {
+      if (file) {
+        this.files.push(file)
+        file = undefined
+      }
     },
   },
   created() {
@@ -54,6 +98,13 @@ export default {
         username,
         password,
       })
+    },
+    async uploadFiles() {
+      this.fileIds = []
+      for (const file of this.files) {
+        const id = await this.$store.dispatch(ACTIONS.UPLOAD_FILE, file)
+        this.fileIds.push(id)
+      }
     },
   },
 }
