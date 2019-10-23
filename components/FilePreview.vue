@@ -23,7 +23,11 @@ export default {
     }),
   },
   async created() {
-    await this.$store.dispatch(ACTIONS.GET_FILE, this.id)
+    if (this.file === undefined && this.id) {
+      await this.$store.dispatch(ACTIONS.GET_FILE, this.id)
+    } else {
+      this.$destroy()
+    }
   },
   methods: {
     prefixB64(b64) {
