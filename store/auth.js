@@ -1,38 +1,35 @@
-import { FILE_MS_URI, SERVICES, HTTP_STATUS } from '~/constants/AxiosConstants'
+import { FILE_MS_URI, HTTP_STATUS } from '~/constants/AxiosConstants'
 
 export const state = () => ({
-  data: {},
+  loginSuccess: false,
 })
 
 export const mutations = {
-  set(state, data) {
-    state.data = { ...data }
-  },
-  remove(state, { todo }) {
-    state.list.splice(state.list.indexOf(todo), 1)
-  },
-  toggle(state, todo) {
-    todo.done = !todo.done
+  set(state, success) {
+    state.loginSuccess = success
   },
 }
 
 export const actions = {
   async login({ commit }, { username, password }) {
-    const URI = `${FILE_MS_URI}${SERVICES.AUTHENTICATE}`
+    const URI = `${FILE_MS_URI}`
     const body = {
       send_code: {
         login: username,
       },
     }
+    let success = false
     try {
       const response = await this.$axios.post(URI, body)
       if (response.status === HTTP_STATUS.OK) {
-        console.log('Succesful login!')
+        success = true
       } else {
         throw new Error('Login failed')
       }
     } catch (error) {
       console.error(error)
+    } finally {
+      commit('set', success)
     }
   },
 }

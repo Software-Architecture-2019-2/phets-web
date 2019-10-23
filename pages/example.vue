@@ -7,6 +7,11 @@
       <h2 class="subtitle">
         Página de ejemplo para desarrollar Phets software system.
       </h2>
+      <!-- Will remove this code if false -->
+      <div v-if="pushDiv">Código no mostrado</div>
+      <!-- Will set display: none style if false -->
+      <div v-show="showDiv">Código oculdato con estilos</div>
+
       <div v-for="number in array" :key="number" class="links">
         {{ number }}
       </div>
@@ -30,6 +35,8 @@ export default {
   },
   data() {
     return {
+      pushDiv: false,
+      showDiv: false,
       array: [1, 2, 3, 4, 5],
     }
   },
