@@ -1,6 +1,5 @@
 <template>
   <div>
-    <b-navbar />
     <nuxt />
   </div>
 </template>
