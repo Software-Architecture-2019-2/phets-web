@@ -12,6 +12,9 @@
       <!-- Will set display: none style if false -->
       <div v-show="showDiv">Código oculdato con estilos</div>
 
+      {{ animalList }}
+      {{ animalItem }}
+
       <div class="my-1">
         <b-form-file
           v-model="file"
@@ -35,12 +38,12 @@
         </b-button>
         <b-container fluid>
           <b-row>
-            <b-col v-for="(id, i) in fileIds" :key="i">
+            <b-col v-for="(fileId, i) in fileIds" :key="i">
               <b-badge variant="info" class="mx-1">
-                {{ id }}
+                {{ fileId }}
               </b-badge>
               <div class="w-100">
-                <file-preview :id="id" />
+                <file-preview :id="fileId" />
               </div>
             </b-col>
           </b-row>
@@ -51,6 +54,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import ExampleComp from '~/components/ExampleComp'
 import FilePreview from '~/components/FilePreview'
 import { ACTIONS } from '~/constants/VuexConstants'
@@ -80,6 +84,10 @@ export default {
     filenames() {
       return this.files ? this.files.map((f) => f.name) : undefined
     },
+    ...mapState({
+      animalList: (state) => state.animal.list,
+      animalItem: (state) => state.animal.item,
+    }),
   },
   watch: {
     file(file) {
@@ -92,6 +100,20 @@ export default {
   created() {
     // this.authenticate('bsavilanr@slabcode.com', 'MYPASS')
     this.$store.dispatch(ACTIONS.ANIMAL_LIST)
+    this.$store.dispatch(ACTIONS.ANIMAL_GET, 1)
+    // this.$store.dispatch(ACTIONS.ANIMAL_CREATE, {
+    //   name: 'Pocky',
+    //   user: 'username',
+    //   breed: 'Pitbull',
+    //   gender: false,
+    //   adoption: false,
+    //   birthdate: '2013-02-07',
+    //   animal_type: {
+    //     id: 1,
+    //     value: 'Perro',
+    //   },
+    //   media: [],
+    // })
   },
   methods: {
     authenticate(username, password) {
