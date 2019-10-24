@@ -19,6 +19,6 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
-    "prettier/prettier": 1
+    "prettier/prettier": "warn"
   }
 }
