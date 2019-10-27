@@ -76,7 +76,7 @@ export default {
     }),
   },
   created() {
-    this.$store.dispatch(ACTIONS.USER_GET, this.idAnimal)
+    this.$store.dispatch(ACTIONS.USER_GET, this.id)
   },
 }
 </script>
