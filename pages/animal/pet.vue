@@ -1,41 +1,39 @@
 <template>
   <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">Home</h1>
-      <h2 class="subtitle">
-        Presentation component for Phets software system.
-      </h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green"
-          >Documentation</a
-        >
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-          >GitHub</a
-        >
-      </div>
+    <div class="text-left">
+      <h1>Perfil Mascota</h1>
+      <pet-data :idAnimal="id" />
+      <b-button to="/animal/edit" variant="primary">Editar Mascota</b-button>
     </div>
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+import PetData from '~/components/PetData'
+import { ACTIONS } from '~/constants/VuexConstants'
 
 export default {
   components: {
-    Logo,
+    PetData,
+  },
+  props: {
+    id: {
+      type: Number,
+      default: undefined,
+    },
   },
   computed: {
     profile() {
-      console.log(this.$store)
-      return this.$store.todo.lists
+      return this.$store.state.todos
     },
   },
-  created() {
-    console.log(this)
+  methods: {
+    authenticate(username, password) {
+      this.$store.dispatch(ACTIONS.LOGIN, {
+        username,
+        password,
+      })
+    },
   },
 }
 </script>
@@ -49,7 +47,6 @@ export default {
   align-items: center;
   text-align: center;
 }
-
 .title {
   font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -59,7 +56,6 @@ export default {
   color: #35495e;
   letter-spacing: 1px;
 }
-
 .subtitle {
   font-weight: 300;
   font-size: 42px;
@@ -67,7 +63,6 @@ export default {
   word-spacing: 5px;
   padding-bottom: 15px;
 }
-
 .links {
   padding-top: 15px;
 }

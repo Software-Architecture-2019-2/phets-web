@@ -4,17 +4,13 @@
       <example-comp />
       <!-- Component usage -->
       <h1 class="title">Página de ejemplo</h1>
-      <h2 class="subtitle">
-        Página de ejemplo para desarrollar Phets software system.
-      </h2>
+      <h2 class="subtitle">Página de ejemplo para desarrollar Phets software system.</h2>
       <!-- Will remove this code if false -->
       <div v-if="pushDiv">Código no mostrado</div>
       <!-- Will set display: none style if false -->
       <div v-show="showDiv">Código oculdato con estilos</div>
-
       {{ animalList }}
       {{ animalItem }}
-
       <div class="my-1">
         <b-form-file
           v-model="file"
@@ -22,26 +18,15 @@
           placeholder="Selecciona un archivo o suéltalo acá..."
           drop-placeholder="Suelta un archivo acá..."
         />
-        <b-badge
-          v-for="(name, i) in filenames"
-          :key="i"
-          variant="info"
-          class="mx-1"
-        >
-          {{ name }}
-        </b-badge>
+        <b-badge v-for="(name, i) in filenames" :key="i" variant="info" class="mx-1">{{ name }}</b-badge>
       </div>
 
       <div class="my-1">
-        <b-button variant="primary" @click="uploadFiles">
-          Subir archivos a Microservicio
-        </b-button>
+        <b-button variant="primary" @click="uploadFiles">Subir archivos a Microservicio</b-button>
         <b-container fluid>
           <b-row>
             <b-col v-for="(fileId, i) in fileIds" :key="i">
-              <b-badge variant="info" class="mx-1">
-                {{ fileId }}
-              </b-badge>
+              <b-badge variant="info" class="mx-1">{{ fileId }}</b-badge>
               <div class="w-100">
                 <file-preview :id="fileId" />
               </div>

@@ -39,13 +39,15 @@ export default class GraphQLUtil {
     let gqlString = `${gql.type} ${gql.name}`
     if (gql.params && gql.params.length) {
       const paramsString = gql.params
-        .map((p) => `$${p.name}: ${p.type}`).join(', ')
+        .map((p) => `$${p.name}: ${p.type}`)
+        .join(', ')
       gqlString += `(${paramsString})`
     }
     gqlString += ` {\n${gql.name}`
     if (gql.params && gql.params.length) {
       const paramsString = gql.params
-        .map((p) => `${p.name}: $${p.name}`).join(', ')
+        .map((p) => `${p.name}: $${p.name}`)
+        .join(', ')
       gqlString += `(${paramsString})`
     }
     gqlString += GraphQLUtil.formatFields(gql.fields)
@@ -60,5 +62,4 @@ export default class GraphQLUtil {
     }
     return vars
   }
-
-}    
+}

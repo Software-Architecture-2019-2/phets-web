@@ -36,7 +36,7 @@ export const actions = {
     if (animalList) {
       commit('setList', animalList)
     } else {
-      console.error("Not able to load animals")
+      console.error('Not able to load animals')
     }
   },
   async get({ commit }, id) {
@@ -61,7 +61,7 @@ export const actions = {
     if (animal) {
       commit('set', animal)
     } else {
-      console.error("Not able to load animal")
+      console.error('Not able to load animal')
     }
   },
   async create({ commit }, animal) {
@@ -86,7 +86,7 @@ export const actions = {
     if (savedAnimal) {
       console.log('Pet succesfully saved')
     } else {
-      console.error("Error saving animal")
+      console.error('Error saving animal')
     }
   },
 }
