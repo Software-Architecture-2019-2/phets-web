@@ -2,12 +2,16 @@ import GraphQLUtil from '~/util/GraphQL'
 
 export const state = () => ({
   list: [],
+  own: [],
   item: undefined,
 })
 
 export const mutations = {
   setList(state, animals) {
     state.list = animals
+  },
+  setOwn(state, animals) {
+    state.own = animals
   },
   set(state, animal) {
     state.item = animal
@@ -37,6 +41,21 @@ export const actions = {
       commit('setList', animalList)
     } else {
       console.error('Not able to load animals')
+    }
+  },
+  async getOwn({ commit }, username) {
+    const fields = ['id', 'name']
+    const gql = {
+      type: 'query',
+      name: 'allAnimalsByUser',
+      params: [{ name: 'username', value: username, type: 'String!' }], // TODO: Change for session user
+      fields,
+    }
+    const animalList = await GraphQLUtil.request(this.$axios, gql)
+    if (animalList) {
+      commit('setOwn', animalList)
+    } else {
+      console.error('Not able to load own animals')
     }
   },
   async get({ commit }, id) {
@@ -84,7 +103,7 @@ export const actions = {
     }
     const savedAnimal = await GraphQLUtil.request(this.$axios, gql)
     if (savedAnimal) {
-      console.log('Pet succesfully saved')
+      console.info('Pet succesfully saved')
     } else {
       console.error('Error saving animal')
     }

@@ -9,6 +9,9 @@
       </b-col>
     </b-row>
     <b-form @submit.prevent="save">
+      <b-form-group label="Mascota">
+        <b-select v-model="model.animal_id" :options="pets" />
+      </b-form-group>
       <b-form-group label="Nombre del evento">
         <b-input v-model="model.subject" placeholder="ej: Cita en veterinaria" />
       </b-form-group>
@@ -44,6 +47,7 @@ export default {
   data() {
     return {
       model: {
+        animal_id: null,
         subject: undefined,
         date: undefined,
         description: undefined,
@@ -53,12 +57,25 @@ export default {
   computed: {
     ...mapState({
       event: (state) => state.event.item,
+      pets: (state) => {
+        const ownPets = state.animal.own.map((animal) => ({
+          value: animal.id,
+          text: animal.name,
+        }))
+        ownPets.unshift({
+          value: null,
+          text: 'Selecciona una de tus mascotas',
+          disabled: true,
+        })
+        return ownPets
+      },
     }),
   },
   created() {
     if (this.event) {
       this.model = { ...this.event }
     }
+    this.$store.dispatch(ACTIONS.ANIMAL_OWN, 'username') // TODO: Change for session user
   },
   destroyed() {
     this.$store.dispatch(ACTIONS.EVENT_RESET)
