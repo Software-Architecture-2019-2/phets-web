@@ -27,7 +27,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: ['~/plugins/axios', '~/plugins/datepicker'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -48,7 +48,9 @@ export default {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    baseURL: 'http://localhost:4000/graphql',
+  },
   /*
    ** Build configuration
    */

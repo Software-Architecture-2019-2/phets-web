@@ -1,20 +1,16 @@
-import { HTTP_STATUS } from '~/constants/AxiosConstants'
-
 export default class GraphQLUtil {
   static async request(axios, gql, callbackError) {
     const query = GraphQLUtil.buildQuery(gql)
     const variables = GraphQLUtil.buildVariables(gql.params)
-    console.log(variables)
     try {
-      const response = await axios.post('', {
+      const response = await axios.$post('', {
         query,
         variables,
       })
-      console.log(response)
-      if (response.status === HTTP_STATUS.OK) {
-        return response.data.data[gql.name]
+      if (response.data) {
+        return response.data[gql.name]
       } else {
-        throw new Error('Error in request')
+        throw new Error('Request error')
       }
     } catch (error) {
       console.error(error)
