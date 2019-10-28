@@ -1,14 +1,22 @@
 import GraphQLUtil from '~/util/GraphQL'
 
 export const state = () => ({
+  types: [],
   list: [],
+  page: undefined,
   own: [],
   item: undefined,
 })
 
 export const mutations = {
+  setTypes(state, types) {
+    state.types = types
+  },
   setList(state, animals) {
     state.list = animals
+  },
+  setPage(state, animalPage) {
+    state.page = animalPage
   },
   setOwn(state, animals) {
     state.own = animals
@@ -19,6 +27,20 @@ export const mutations = {
 }
 
 export const actions = {
+  async getTypes({ commit }) {
+    const fields = ['id', 'value']
+    const gql = {
+      type: 'query',
+      name: 'allAnimalTypes',
+      fields,
+    }
+    const animalTypes = await GraphQLUtil.request(this.$axios, gql)
+    if (animalTypes) {
+      commit('setTypes', animalTypes)
+    } else {
+      console.error('Not able to load animal types')
+    }
+  },
   async getList({ commit }) {
     const fields = [
       'id',
@@ -39,6 +61,42 @@ export const actions = {
     const animalList = await GraphQLUtil.request(this.$axios, gql)
     if (animalList) {
       commit('setList', animalList)
+    } else {
+      console.error('Not able to load animals')
+    }
+  },
+  async getFilteredPage({ commit }, { filter, pager }) {
+    const fields = [
+      {
+        name: 'data',
+        fields: [
+          'id',
+          'name',
+          'user',
+          'breed',
+          'gender',
+          'adoption',
+          'birthdate',
+          'media',
+          { name: 'animal_type', fields: ['id', 'value'] },
+        ],
+      },
+      'perPage',
+      'page',
+      'totalElements',
+    ]
+    const gql = {
+      type: 'query',
+      name: 'allAnimalsPaged',
+      params: [
+        { name: 'pagination', value: pager, type: 'Pagination!' },
+        { name: 'filter', value: filter, type: 'AnimalFilter' },
+      ],
+      fields,
+    }
+    const animalPage = await GraphQLUtil.request(this.$axios, gql)
+    if (animalPage) {
+      commit('setPage', animalPage)
     } else {
       console.error('Not able to load animals')
     }

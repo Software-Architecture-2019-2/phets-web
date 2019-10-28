@@ -3,7 +3,9 @@ export const ACTIONS = {
   GET_FILE: 'file/get',
   UPLOAD_FILE: 'file/upload',
 
+  ANIMAL_TYPES: 'animal/getTypes',
   ANIMAL_LIST: 'animal/getList',
+  ANIMAL_PAGE: 'animal/getFilteredPage',
   ANIMAL_OWN: 'animal/getOwn',
   ANIMAL_CREATE: 'animal/create',
   ANIMAL_GET: 'animal/get',
