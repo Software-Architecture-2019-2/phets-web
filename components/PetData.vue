@@ -1,6 +1,7 @@
 <template>
   <div class="dataPet">
     <b-card
+      v-if="animalItem"
       title="Mascota:"
       img-src="https://picsum.photos/600/300/?image=25"
       img-alt="Image"
@@ -48,7 +49,11 @@ export default {
     }),
   },
   created() {
-    this.$store.dispatch(ACTIONS.ANIMAL_GET, this.idAnimal)
+    if (this.idAnimal) {
+      this.$store.dispatch(ACTIONS.ANIMAL_GET, this.idAnimal)
+    } else if (this.animalItem === undefined) {
+      this.$router.go(-1)
+    }
   },
 }
 </script>
