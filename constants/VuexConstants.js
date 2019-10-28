@@ -1,5 +1,6 @@
 export const ACTIONS = {
   LOGIN: 'auth/login',
+  REGISTER: 'auth/register',
   GET_FILE: 'file/get',
   UPLOAD_FILE: 'file/upload',
 

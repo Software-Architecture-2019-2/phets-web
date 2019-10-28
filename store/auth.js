@@ -1,7 +1,8 @@
-import { FILE_MS_URI, HTTP_STATUS } from '~/constants/AxiosConstants'
+import GraphQLUtil from '~/util/GraphQL'
 
 export const state = () => ({
   loginSuccess: false,
+  registerSuccess: false,
 })
 
 export const mutations = {
@@ -11,25 +12,37 @@ export const mutations = {
 }
 
 export const actions = {
-  async login({ commit }, { username, password }) {
-    const URI = `${FILE_MS_URI}`
-    const body = {
-      send_code: {
-        login: username,
-      },
+  async login({ commit }, { login }) {
+    const fields = ['username', 'password']
+    const gql = {
+      type: 'mutation',
+      name: 'mutation',
+      params: [{ name: 'login', value: login, type: 'UserCredentials!' }],
+      fields,
     }
-    let success = false
-    try {
-      const response = await this.$axios.post(URI, body)
-      if (response.status === HTTP_STATUS.OK) {
-        success = true
-      } else {
-        throw new Error('Login failed')
-      }
-    } catch (error) {
-      console.error(error)
-    } finally {
-      commit('set', success)
+
+    const res = await GraphQLUtil.request(this.$axios, gql)
+    if (res) {
+      console.info('Success')
+      this.loginSuccess = true
+    } else {
+      console.error('Login error')
+    }
+  },
+  async register({ commit }, { register }) {
+    const fields = ['firstName', 'lastName', 'username', 'email', 'password']
+    const gql = {
+      type: 'mutation',
+      name: 'createAnimal',
+      params: [{ name: 'register', value: register, type: 'UserInput!' }],
+      fields,
+    }
+    const res = await GraphQLUtil.request(this.$axios, gql)
+    if (res) {
+      console.info('Success')
+      this.registerSuccess = true
+    } else {
+      console.error('Login error')
     }
   },
 }
