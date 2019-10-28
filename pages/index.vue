@@ -122,10 +122,10 @@ export default {
     }
   },
   methods: {
-    authenticate(event) {
+    authenticate() {
       this.$store.dispatch(ACTIONS.LOGIN, this.login)
     },
-    create(event) {
+    create() {
       this.$store.dispatch(ACTIONS.REGISTER, this.register)
     },
   },
