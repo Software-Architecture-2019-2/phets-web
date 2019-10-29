@@ -20,4 +20,6 @@ export const ACTIONS = {
   EVENT_SAVE: 'event/save',
   EVENT_DELETE: 'event/delete',
   EVENT_RESET: 'event/reset',
+
+  MESSAGE_SENT: 'chat/sent',
 }
