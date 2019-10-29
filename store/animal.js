@@ -108,12 +108,18 @@ export const actions = {
       console.error('Not able to load animals')
     }
   },
-  async getOwn({ commit }, username) {
-    const fields = ['id', 'name']
+  async getOwn({ commit }) {
+    const fields = [
+      'id',
+      'name',
+      'gender',
+      'adoption',
+      { name: 'animal_type', fields: ['id', 'value'] },
+    ]
     const gql = {
       type: 'query',
       name: 'allAnimalsByUser',
-      params: [{ name: 'username', value: username, type: 'String!' }], // TODO: Change for session user
+      params: [{ name: 'username', value: 'username', type: 'String!' }], // TODO: Change for session user
       fields,
     }
     const animalList = await GraphQLUtil.request(this.$axios, gql)
