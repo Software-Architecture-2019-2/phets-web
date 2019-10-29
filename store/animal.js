@@ -85,6 +85,13 @@ export const actions = {
       'page',
       'totalElements',
     ]
+    // Removes null values from obj
+    filter = Object.entries(filter)
+      .filter((entry) => entry[1] !== null)
+      .reduce((accumulator, current) => {
+        accumulator[current[0]] = current[1]
+        return accumulator
+      }, {})
     const gql = {
       type: 'query',
       name: 'allAnimalsPaged',

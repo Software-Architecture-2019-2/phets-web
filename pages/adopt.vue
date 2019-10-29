@@ -201,13 +201,7 @@ export default {
     search() {
       const pager = { ...this.paginate }
       pager.page--
-      const filter = Object.entries(this.filter)
-        .filter((entry) => entry[1] !== null)
-        .reduce((accumulator, current, index) => {
-          accumulator[current[0]] = current[1]
-          return accumulator
-        }, {})
-      this.$store.dispatch(ACTIONS.ANIMAL_PAGE, { pager, filter })
+      this.$store.dispatch(ACTIONS.ANIMAL_PAGE, { pager, filter: this.filter })
     },
     clean() {
       this.filter = {
