@@ -31,6 +31,21 @@ export const actions = {
       console.error('Login error')
     }
   },
+  async logout({ commit, state }) {
+    const gql = {
+      type: 'mutation',
+      name: 'destroySession',
+      params: [
+        {
+          name: 'token',
+          value: { token: state.session.token },
+          type: 'TokenInput!',
+        },
+      ],
+    }
+    await GraphQLUtil.request(this.$axios, gql)
+    commit('setSession', undefined)
+  },
   async register({ commit }, register) {
     const fields = ['firstName', 'lastName', 'username', 'email', 'password']
     const gql = {

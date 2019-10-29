@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div v-if="user" class="container">
     <div class="text-left">
       <h1>Perfil</h1>
       <div>
@@ -11,7 +11,7 @@
           tag="article"
           class="mb-2"
         >
-          <b-card-text style="solid ">sample text. {{ self_description }}</b-card-text>
+          <b-card-text style="solid ">sample text. {{ user.description }}</b-card-text>
 
           <b-row>
             <b-col sm="2">
@@ -61,27 +61,18 @@ import { mapState } from 'vuex'
 import { ACTIONS } from '~/constants/VuexConstants'
 
 export default {
-  props: {
-    id: {
-      type: Number,
-      default: undefined,
-    },
-  },
   computed: {
-    profile() {
-      return this.$store.state.todos
-    },
     ...mapState({
       user: (state) => state.user.item,
     }),
   },
   created() {
-    this.$store.dispatch(ACTIONS.USER_GET, this.id)
+    this.$store.dispatch(ACTIONS.USER_GET_PROFILE)
   },
 }
 </script>
 
-<style>
+<style scoped>
 .container {
   margin: 0 auto;
   min-height: 100vh;

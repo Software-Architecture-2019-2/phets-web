@@ -26,7 +26,7 @@ export default {
   methods: {
     async edit(id) {
       await this.$store.dispatch(ACTIONS.EVENT_GET, id)
-      this.$router.push('form')
+      this.$router.push('/events/form')
     },
   },
 }

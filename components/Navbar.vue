@@ -1,37 +1,44 @@
 <template>
   <b-navbar toggleable="lg" type="dark" variant="info">
-    <b-navbar-brand href="#">NavBar</b-navbar-brand>
+    <b-navbar-brand to="/">Phets</b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
     <b-collapse id="nav-collapse" is-nav>
-      <b-navbar-nav>
-        <b-nav-item href="#">Link</b-nav-item>
-        <b-nav-item href="#" disabled>Disabled</b-nav-item>
-      </b-navbar-nav>
-
-      <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
-        <b-nav-form>
-          <b-form-input size="sm" class="mr-sm-2" placeholder="Search" />
-          <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
-        </b-nav-form>
-        <b-nav-item-dropdown text="Lang" right>
-          <b-dropdown-item href="#">EN</b-dropdown-item>
-          <b-dropdown-item href="#">ES</b-dropdown-item>
-          <b-dropdown-item href="#">RU</b-dropdown-item>
-          <b-dropdown-item href="#">FA</b-dropdown-item>
-        </b-nav-item-dropdown>
-
+        <b-nav-item to="/phets">Phets</b-nav-item>
+        <b-nav-item to="/adopt">Adoptar</b-nav-item>
+        <b-nav-item to="/events">Eventos</b-nav-item>
+        <b-nav-item>
+          <font-awesome-icon :icon="['fas', 'bell']" />
+        </b-nav-item>
         <b-nav-item-dropdown right>
-          <!-- Using 'button-content' slot -->
           <template v-slot:button-content>
-            <em>User</em>
+            <font-awesome-icon :icon="['fa', 'user']" />
+            <b>{{ username }}</b>
           </template>
-          <b-dropdown-item href="#">Profile</b-dropdown-item>
-          <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+          <b-dropdown-item to="/profile">Perfil</b-dropdown-item>
+          <b-dropdown-item @click="logout">Cerrar sesión</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
 </template>
+
+<script>
+import { mapState } from 'vuex'
+import { ACTIONS } from '~/constants/VuexConstants'
+
+export default {
+  computed: {
+    ...mapState({
+      username: (state) => state.auth.session.username,
+    }),
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch(ACTIONS.LOGOUT)
+    }
+  }
+}
+</script>

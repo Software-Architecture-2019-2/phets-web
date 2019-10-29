@@ -1,5 +1,6 @@
 export const ACTIONS = {
   LOGIN: 'auth/login',
+  LOGOUT: 'auth/logout',
   REGISTER: 'auth/register',
 
   GET_FILE_PATH: 'file/get',
@@ -15,6 +16,7 @@ export const ACTIONS = {
   USER_LIST: 'user/getList',
   USER_CREATE: 'user/create',
   USER_GET: 'user/get',
+  USER_GET_PROFILE: 'user/getProfile',
 
   EVENT_LIST: 'event/getList',
   EVENT_GET: 'event/get',

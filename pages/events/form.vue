@@ -75,7 +75,7 @@ export default {
     if (this.event) {
       this.model = { ...this.event }
     }
-    this.$store.dispatch(ACTIONS.ANIMAL_OWN) // TODO: Change for session user
+    this.$store.dispatch(ACTIONS.ANIMAL_OWN)
   },
   destroyed() {
     this.$store.dispatch(ACTIONS.EVENT_RESET)
@@ -84,8 +84,13 @@ export default {
     save() {
       const event = this.model
       delete event.id
-      const { id } = this.event
-      const saved = this.$store.dispatch(ACTIONS.EVENT_SAVE, { id, event })
+      let saved
+      if (this.event) {
+        const { id } = this.event
+        saved = this.$store.dispatch(ACTIONS.EVENT_SAVE, { id, event })
+      } else {
+        saved = this.$store.dispatch(ACTIONS.EVENT_SAVE, { event })
+      }
       if (saved) {
         console.info('Se ha guardado satisfactoriamente')
         this.$router.push('/events')

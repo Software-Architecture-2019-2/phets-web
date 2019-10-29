@@ -150,7 +150,7 @@ export default {
         gender: null,
         birthdate: null,
         adoption: true,
-        notUser: 'asx', // TODO: Change for user session
+        notUser: this.$store.state.auth.session.username,
       },
       filterAge: undefined,
       paginate: {
@@ -210,7 +210,7 @@ export default {
         birthdate: null,
         animalType: null,
         adoption: true,
-        notUser: 'username', // TODO: Change for user session
+        notUser: this.$store.state.auth.session.username,
       }
       this.searching = false
       this.search()
