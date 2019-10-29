@@ -5,7 +5,9 @@
         <span class="h2">{{ model.id ? 'Modificar' : 'Agregar' }} evento</span>
       </b-col>
       <b-col v-if="model.id" cols="auto">
-        <b-button variant="danger" @click="confirmDelete(model.id)">Eliminar evento</b-button>
+        <b-button variant="danger" @click="confirmDelete(model.id)"
+          >Eliminar evento</b-button
+        >
       </b-col>
     </b-row>
     <b-form @submit.prevent="save">
@@ -13,7 +15,10 @@
         <b-select v-model="model.animal_id" :options="pets" />
       </b-form-group>
       <b-form-group label="Nombre del evento">
-        <b-input v-model="model.subject" placeholder="ej: Cita en veterinaria" />
+        <b-input
+          v-model="model.subject"
+          placeholder="ej: Cita en veterinaria"
+        />
       </b-form-group>
       <b-form-group label="Fecha">
         <datepicker v-model="model.date" :min-date="new Date()" />

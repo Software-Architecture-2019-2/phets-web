@@ -4,7 +4,9 @@
     <hr />
     <p>{{ event.description }}</p>
     <div class="text-center">
-      <b-button variant="outline-warning" @click="edit(event.id)">Modificar</b-button>
+      <b-button variant="outline-warning" @click="edit(event.id)"
+        >Modificar</b-button
+      >
     </div>
   </b-tab>
 </template>

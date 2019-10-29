@@ -40,6 +40,17 @@ export default {
       default: undefined,
     },
   },
+  data() {
+    return {
+      model: {
+        id: null,
+        name: undefined,
+        breed: undefined,
+        gender: undefined,
+        birthdate: undefined,
+      },
+    }
+  },
   computed: {
     profile() {
       return this.$store.state.todos

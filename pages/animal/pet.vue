@@ -2,7 +2,7 @@
   <div class="container">
     <div class="text-left">
       <h1>Perfil Mascota</h1>
-      <pet-data :idAnimal="id" />
+      <pet-data :id-animal="id" />
       <b-button to="/animal/edit" variant="primary">Editar Mascota</b-button>
     </div>
   </div>
@@ -16,23 +16,14 @@ export default {
   components: {
     PetData,
   },
-  props: {
-    id: {
-      type: Number,
-      default: undefined,
-    },
+  data() {
+    return {
+      id: this.$route.params.id,
+    }
   },
   computed: {
     profile() {
       return this.$store.state.todos
-    },
-  },
-  methods: {
-    authenticate(username, password) {
-      this.$store.dispatch(ACTIONS.LOGIN, {
-        username,
-        password,
-      })
     },
   },
 }

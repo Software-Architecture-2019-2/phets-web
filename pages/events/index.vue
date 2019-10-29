@@ -2,8 +2,17 @@
   <b-card title="Mis eventos">
     <b-button variant="success" to="form">+ Agregar un evento</b-button>
     <b-tabs pills card vertical>
-      <events-tab id="future-events" title="Eventos futuros" :events="futureEvents" active />
-      <events-tab id="past-events" title="Eventos pasados" :events="pastEvents" />
+      <events-tab
+        id="future-events"
+        title="Eventos futuros"
+        :events="futureEvents"
+        active
+      />
+      <events-tab
+        id="past-events"
+        title="Eventos pasados"
+        :events="pastEvents"
+      />
     </b-tabs>
   </b-card>
 </template>

@@ -31,7 +31,11 @@
               </b-button>
             </b-col>
           </b-row>
-          <b-form-group class="mt-3" label="Tipo de animal" label-class="font-weight-bold">
+          <b-form-group
+            class="mt-3"
+            label="Tipo de animal"
+            label-class="font-weight-bold"
+          >
             <b-select v-model="filter.animalType" :options="animalTypes" />
           </b-form-group>
           <b-form-group label="Raza" label-class="font-weight-bold">
@@ -41,7 +45,7 @@
             <slot name="label">
               <b-row class="button-height" align-v="center">
                 <b-col class="font-weight-bold">Género</b-col>
-                <b-col cols="auto" v-show="filter.gender !== null">
+                <b-col v-show="filter.gender !== null" cols="auto">
                   <b-button
                     v-b-tooltip.hover
                     title="Eliminar filtro de género"
@@ -57,15 +61,26 @@
             </slot>
             <b-row align-h="between">
               <b-col cols="auto">
-                <b-form-radio-group v-model="filter.gender" :options="genderOptions" />
+                <b-form-radio-group
+                  v-model="filter.gender"
+                  :options="genderOptions"
+                />
               </b-col>
             </b-row>
           </b-form-group>
           <b-form-group label="Edad" label-class="font-weight-bold">
-            <b-input v-model="filterAge" type="range" min="1" max="30" step="1" />
+            <b-input
+              v-model="filterAge"
+              type="range"
+              min="1"
+              max="30"
+              step="1"
+            />
             <b-row align-h="between">
               <b-col cols="auto">1 año</b-col>
-              <b-col v-if="filterAge" class="text-center">{{ filterAge }} o menos</b-col>
+              <b-col v-if="filterAge" class="text-center"
+                >{{ filterAge }} o menos</b-col
+              >
               <b-col cols="auto">30 años</b-col>
             </b-row>
           </b-form-group>
@@ -89,18 +104,30 @@
               class="mb-4"
             >
               <b-card no-body class="animal-card">
-                <file-preview v-if="animal.media.length" :id="animal.media[0]" />
-                <b-card-img v-else :src="`https://placekitten.com/480/210?image=${Math.floor(Math.random() * 20)}`" alt="Image" />
+                <file-preview
+                  v-if="animal.media.length"
+                  :id="animal.media[0]"
+                />
+                <b-card-img
+                  v-else
+                  :src="
+                    `https://placekitten.com/480/210?image=${Math.floor(
+                      Math.random() * 20
+                    )}`
+                  "
+                  alt="Image"
+                />
                 <!-- TODO: Change for default image -->
                 <b-card-body>
                   <b-card-title>
-                    <b-link variant="link" @click="toPetProfile(animal.id)">{{animal.name}}</b-link>
-                    {{age(animal.birthdate)}}
+                    <b-link variant="link" @click="toPetProfile(animal.id)">{{
+                      animal.name
+                    }}</b-link>
+                    {{ age(animal.birthdate) }}
                   </b-card-title>
                   <b-card-sub-title>
-                    {{animal.animal_type.value}},
-                    {{animal.breed}},
-                    {{gender(animal.gender)}}
+                    {{ animal.animal_type.value }}, {{ animal.breed }},
+                    {{ gender(animal.gender) }}
                   </b-card-sub-title>
                 </b-card-body>
               </b-card>
@@ -253,7 +280,7 @@ export default {
 
 .animal-card
   height: 400px
-  
+
   img, .card-img
     height: 300px
     object-fit: cover

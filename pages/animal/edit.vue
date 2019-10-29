@@ -2,13 +2,43 @@
   <div class="container">
     <div class="text-left">
       <h1>Editar Mascota</h1>
-      <pet-data :idAnimal="id" />
+      <b-card
+      title="Editar Mascota:"
+      img-src="https://picsum.photos/600/300/?image=25"
+      img-alt="Image"
+      img-top
+      style="max-width: 30rem;"
+      tag="article"
+      class="mb-2"
+    >
+      <b-row>
+        <b-form-input id="name-input" v-model="animalItem.name"></b-form-input>
+      </b-row>
+      <b-row>
+        <b-col>Raza:</b-col>
+        <b-form-input
+          id="breed-input"
+          v-model="animalItem.breed"
+        ></b-form-input>
+      </b-row>
+      <b-row>
+        <b-col>Genero:</b-col>
+        <b-form-input
+          id="gender-input"
+          v-model="animalItem.gender"
+        ></b-form-input>
+      </b-row>
+      <b-row>
+        <b-col>Fecha de nacimiento:</b-col>
+        <b-form-input
+          id="birthdate-input"
+          v-model="animalItem.birthdate"
+        ></b-form-input>
+      </b-row>
+    </b-card>
       <b-row>
         <b-col>
           <b-button>Guardar</b-button>
-        </b-col>
-        <b-col>
-          <b-button to="/animal/edit" variant="primary">Editar Mascota</b-button>
         </b-col>
       </b-row>
     </div>
@@ -20,28 +50,25 @@ import PetData from '~/components/PetData'
 import { ACTIONS } from '~/constants/VuexConstants'
 
 export default {
-  components: {
-    PetData,
-  },
-  props: {
-    id: {
-      type: Number,
-      default: undefined,
-    },
+  data() {
+    return {
+      idAnimal: this.$route.params.id,
+    }
   },
   computed: {
     profile() {
       return this.$store.state.todos
     },
+    ...mapState({
+      animalItem: (state) => state.animal.item,
+    }),
   },
-  methods: {
-    authenticate(username, password) {
-      this.$store.dispatch(ACTIONS.LOGIN, {
-        username,
-        password,
-      })
-    },
+  created() {
+    this.$store.dispatch(ACTIONS.ANIMAL_GET, this.idAnimal)
   },
+  edit() {
+    this.$store.dispatch(ACTIONS.ANIMAL_EDIT, this.animalItem)
+  }
 }
 </script>
 

@@ -11,14 +11,19 @@
           tag="article"
           class="mb-2"
         >
-          <b-form-textarea style="solid ">{{ user.description }}</b-form-textarea>
+          <b-form-textarea style="solid ">{{
+            model.description
+          }}</b-form-textarea>
 
           <b-row>
             <b-col sm="2">
               <label for="nombre-input">Nombre:</label>
             </b-col>
             <b-col sm="10">
-              <b-form-input id="nombre-input" v-model="user.name"></b-form-input>
+              <b-form-input
+                id="nombre-input"
+                v-model="model.name"
+              ></b-form-input>
             </b-col>
           </b-row>
 
@@ -27,7 +32,10 @@
               <label for="apellido-input">Apellido:</label>
             </b-col>
             <b-col sm="10">
-              <b-form-input id="apellido-input" v-model="user.lastName"></b-form-input>
+              <b-form-input
+                id="apellido-input"
+                v-model="model.lastName"
+              ></b-form-input>
             </b-col>
           </b-row>
 
@@ -36,7 +44,10 @@
               <label for="usuario-input">Nombre de usuario:</label>
             </b-col>
             <b-col sm="10">
-              <b-form-input id="usuario-input" v-model="user.username"></b-form-input>
+              <b-form-input
+                id="usuario-input"
+                v-model="model.username"
+              ></b-form-input>
             </b-col>
           </b-row>
 
@@ -45,7 +56,10 @@
               <label for="correo-input">Correo:</label>
             </b-col>
             <b-col sm="10">
-              <b-form-input id="correo-input" v-model="user.email"></b-form-input>
+              <b-form-input
+                id="correo-input"
+                v-model="model.email"
+              ></b-form-input>
             </b-col>
           </b-row>
 
@@ -58,20 +72,32 @@
 
 <script>
 import { mapState } from 'vuex'
-// import { ACTIONS } from '~/constants/VuexConstants'
+import { ACTIONS } from '~/constants/VuexConstants'
 
 export default {
+  data() {
+    return {
+      model: {
+        id: null,
+        name: undefined,
+        lastName: undefined,
+        username: undefined,
+        email: undefined,
+        description: undefined,
+      },
+    }
+  },
   computed: {
     profile() {
       return this.$store.state.todos
     },
     ...mapState({
-      user: (state) => state.user.current,
+      model: (state) => state.user.current,
     }),
   },
   methods: {
     edit() {
-      this.$store.dispatch(ACTIONS.USER_EDIT, { user })
+      this.$store.dispatch(ACTIONS.USER_EDIT, this.model)
     },
   },
 }

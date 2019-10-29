@@ -11,32 +11,24 @@
           tag="article"
           class="mb-2"
         >
-          <b-card-text style="solid ">{{ user.description }}</b-card-text>
+          <b-card-text style="solid ">{{ model.description }}</b-card-text>
 
           <b-row>
             <b-col sm="2">
               <label for="nombre-input">Nombre:</label>
             </b-col>
             <b-col sm="10">
-              <label id="nombre-input">{{ user.name }}</label>
+              <label id="nombre-input">{{ model.name }}</label>
             </b-col>
           </b-row>
 
-          <b-row>
-            <b-col sm="2">
-              <label for="apellido-input">Apellido:</label>
-            </b-col>
-            <b-col sm="10">
-              <label id="apellido-input">{{ user.lastName }}</label>
-            </b-col>
-          </b-row>
 
           <b-row>
             <b-col sm="2">
               <label for="usuario-input">Nombre de usuario:</label>
             </b-col>
             <b-col sm="10">
-              <label id="usuario-input">{{ user.username }}</label>
+              <label id="usuario-input">{{ model.username }}</label>
             </b-col>
           </b-row>
 
@@ -45,11 +37,10 @@
               <label for="correo-input">Correo:</label>
             </b-col>
             <b-col sm="10">
-              <label id="correo-input">{{ user.email }}</label>
+              <label id="correo-input">{{ model.email }}</label>
             </b-col>
           </b-row>
 
-          <b-button to="/profile/edit" variant="primary">Editar Perfil</b-button>
         </b-card>
       </div>
     </div>
@@ -60,12 +51,24 @@
 import { mapState } from 'vuex'
 
 export default {
+  data() {
+    return {
+      model: {
+        id: null,
+        name: undefined,
+        lastName: undefined,
+        username: undefined,
+        email: undefined,
+        description: undefined,
+      },
+    }
+  },
   computed: {
     profile() {
       return this.$store.state.todos
     },
     ...mapState({
-      user: (state) => state.user.current,
+      model: (state) => state.user.current,
     }),
   },
 }
@@ -91,15 +94,3 @@ export default {
   letter-spacing: 1px;
 }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-</style>

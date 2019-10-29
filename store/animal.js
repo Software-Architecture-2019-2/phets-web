@@ -166,4 +166,29 @@ export const actions = {
       console.error('Error saving animal')
     }
   },
+  async edit({ commit }, animal) {
+    const fields = [
+      'id',
+      'name',
+      'user',
+      'breed',
+      'gender',
+      'adoption',
+      'birthdate',
+      { name: 'animal_type', fields: ['id', 'value'] },
+      'media',
+    ]
+    const gql = {
+      type: 'mutation',
+      name: 'updateAnimal',
+      params: [{ name: 'animal', value: animal, type: 'AnimalInput!' }],
+      fields,
+    }
+    const savedAnimal = await GraphQLUtil.request(this.$axios, gql)
+    if (savedAnimal) {
+      console.info('Pet succesfully edited')
+    } else {
+      console.error('Error editing animal')
+    }
+  },
 }
