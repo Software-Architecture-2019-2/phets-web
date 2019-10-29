@@ -39,13 +39,19 @@ export default {
       type: Number,
       default: undefined,
     },
+    animal: {
+      type: Object,
+      default: undefined
+    },
   },
   computed: {
     profile() {
       return this.$store.state.todos
     },
     ...mapState({
-      animalItem: (state) => state.animal.item,
+      animalItem(state) {
+        return this.animal || state.animal.item 
+      },
     }),
   },
   created() {
