@@ -1,39 +1,9 @@
-import Vue from 'vue'
 import { FILE_MS_URI, HTTP_STATUS } from '~/constants/AxiosConstants'
-
-export const state = () => ({
-  list: {},
-})
-
-export const mutations = {
-  set(state, { id, file }) {
-    Vue.set(state.list, id, file)
-  },
-}
 
 export const actions = {
   // Retrieves a file with an id from Microservice
-  async get({ commit }, id) {
-    const url = `${id}`
-    try {
-      const response = await this.$axios({
-        url,
-        baseURL: FILE_MS_URI,
-        responseType: 'arraybuffer',
-      })
-      if (response.status === HTTP_STATUS.OK) {
-        const buffer = Buffer.from(response.data, 'binary')
-        const b64 = buffer.toString('base64')
-        commit('set', {
-          id,
-          file: b64,
-        })
-      } else {
-        throw new Error('Unable to load file')
-      }
-    } catch (error) {
-      console.error(error)
-    }
+  get({ commit }, id) {
+    return FILE_MS_URI + id
   },
   // Uploads a file to corresponding Microservice
   async upload({ commit }, file) {

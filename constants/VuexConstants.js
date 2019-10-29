@@ -1,7 +1,7 @@
 export const ACTIONS = {
   LOGIN: 'auth/login',
 
-  GET_FILE: 'file/get',
+  GET_FILE_PATH: 'file/get',
   UPLOAD_FILE: 'file/upload',
 
   ANIMAL_TYPES: 'animal/getTypes',
