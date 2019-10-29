@@ -1,16 +1,38 @@
 <template>
-  <div class="d-flex flex-column">
+  <div v-if="session">
     <navbar />
     <nuxt />
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import Navbar from '~/components/Navbar'
 
 export default {
   components: {
     Navbar,
+  },
+  computed: {
+    ...mapState({
+      session: (state) => state.auth.session,
+    }),
+  },
+  watch: {
+    session() {
+      this.validateSession()
+    },
+  },
+  created() {
+    this.validateSession()
+  },
+  methods: {
+    validateSession() {
+      if (!this.session) {
+        this.$router.push('/')
+        this.$destroy()
+      }
+    },
   },
 }
 </script>

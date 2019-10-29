@@ -4,6 +4,33 @@
   </div>
 </template>
 
+<script>
+import { mapState } from 'vuex'
+
+export default {
+  computed: {
+    ...mapState({
+      session: (state) => state.auth.session,
+    }),
+  },
+  watch: {
+    session() {
+      this.validateSession()
+    },
+  },
+  created() {
+    this.validateSession()
+  },
+  methods: {
+    validateSession() {
+      if (this.session) {
+        this.$router.push('/home')
+      }
+    },
+  },
+}
+</script>
+
 <style>
 html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
