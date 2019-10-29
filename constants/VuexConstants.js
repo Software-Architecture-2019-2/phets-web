@@ -24,5 +24,7 @@ export const ACTIONS = {
   EVENT_DELETE: 'event/delete',
   EVENT_RESET: 'event/reset',
 
-  PHETS_PHET: 'interaction/phet'
+  PHETS_PHET: 'interaction/phet',
+
+  MESSAGE_SENT: 'chat/sent',
 }
