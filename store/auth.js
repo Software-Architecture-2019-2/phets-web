@@ -1,18 +1,20 @@
+import { getData, setData } from 'nuxt-storage/local-storage'
 import GraphQLUtil from '~/util/GraphQL'
 
 export const state = () => ({
-  loginSuccess: false,
-  registerSuccess: false,
+  session: getData('token') !== undefined
+    ? { token: getData('token'), username: getData('username') }
+    : undefined,
 })
 
 export const mutations = {
-  set(state, success) {
-    state.loginSuccess = success
+  setSession(state, session) {
+    state.session = session
   },
 }
 
 export const actions = {
-  async login({ commit }, login) {
+  async login({ commit, state }, login) {
     const fields = ['token']
     const gql = {
       type: 'mutation',
@@ -20,10 +22,11 @@ export const actions = {
       params: [{ name: 'credentials', value: login, type: 'UserCredentials!' }],
       fields,
     }
-    const res = await GraphQLUtil.request(this.$axios, gql)
-    if (res) {
-      console.info('Success')
-      this.loginSuccess = true
+    const { token } = await GraphQLUtil.request(this.$axios, gql)
+    if (token) {
+      setData('token', token)
+      setData('username', login.username)
+      commit('setSession', { token, username: login.username })
     } else {
       console.error('Login error')
     }
@@ -38,10 +41,9 @@ export const actions = {
     }
     const res = await GraphQLUtil.request(this.$axios, gql)
     if (res) {
-      console.info('Success')
-      this.registerSuccess = true
+      console.info('Success registration')
     } else {
-      console.error('Login error')
+      console.error('Register error')
     }
   },
 }
