@@ -1,5 +1,6 @@
 export const ACTIONS = {
   LOGIN: 'auth/login',
+
   GET_FILE: 'file/get',
   UPLOAD_FILE: 'file/upload',
 
@@ -19,4 +20,6 @@ export const ACTIONS = {
   EVENT_SAVE: 'event/save',
   EVENT_DELETE: 'event/delete',
   EVENT_RESET: 'event/reset',
+
+  PHETS_PHET: 'interaction/phet'
 }
