@@ -11,7 +11,7 @@
           tag="article"
           class="mb-2"
         >
-          <b-card-text style="solid ">sample text. {{ self_description }}</b-card-text>
+          <b-card-text style="solid ">{{ user.description }}</b-card-text>
 
           <b-row>
             <b-col sm="2">
@@ -58,25 +58,15 @@
 
 <script>
 import { mapState } from 'vuex'
-import { ACTIONS } from '~/constants/VuexConstants'
 
 export default {
-  props: {
-    id: {
-      type: Number,
-      default: undefined,
-    },
-  },
   computed: {
     profile() {
       return this.$store.state.todos
     },
     ...mapState({
-      user: (state) => state.user.item,
+      user: (state) => state.user.current,
     }),
-  },
-  created() {
-    this.$store.dispatch(ACTIONS.USER_GET, this.id)
   },
 }
 </script>

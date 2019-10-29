@@ -22,6 +22,7 @@ export const actions = {
             'lastName',
             'username',
             'email',
+            'description',
         ]
         const gql = {
             type: 'query',
@@ -35,18 +36,19 @@ export const actions = {
             console.error('Not able to load users')
         }
     },
-    async get({ commit }, id) {
+    async get({ commit }, username) {
         const fields = [
             'id',
             'name',
             'lastName',
             'username',
             'email',
+            'description',
         ]
         const gql = {
             type: 'query',
-            name: 'userById',
-            params: [{ name: 'id', value: id, type: 'Int!' }],
+            name: 'userByUsername',
+            params: [{ name: 'username', value: username, type: 'String!' }],
             fields,
         }
         const user = await GraphQLUtil.request(this.$axios, gql)
@@ -63,6 +65,7 @@ export const actions = {
             'lastName',
             'username',
             'email',
+            'description',
         ]
         const gql = {
             type: 'mutation',
@@ -73,6 +76,28 @@ export const actions = {
         const savedUser = await GraphQLUtil.request(this.$axios, gql)
         if (savedUser) {
             console.log('user succesfully saved')
+        } else {
+            console.error('Error saving user')
+        }
+    },
+    async edit({ commit }, user) {
+        const fields = [
+            'id',
+            'name',
+            'lastName',
+            'username',
+            'email',
+            'description',
+        ]
+        const gql = {
+            type: 'mutation',
+            name: 'updateUser',
+            params: [{ name: 'user', value: user, type: 'userInput!' }],
+            fields,
+        }
+        const editedUser = await GraphQLUtil.request(this.$axios, gql)
+        if (editedUser) {
+            console.log('user succesfully edited')
         } else {
             console.error('Error saving user')
         }
