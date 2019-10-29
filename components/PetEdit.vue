@@ -17,8 +17,11 @@
         <b-form-input id="breed-input" v-model="animalItem.breed"></b-form-input>
       </b-row>
       <b-row>
-        <b-col>Genero:</b-col>
-        <b-form-input id="gender-input" v-model="animalItem.gender"></b-form-input>
+        <b-col>
+          <b-form-group label="Género">
+            <b-form-radio-group v-model="animalItem.gender" :options="genderOptions" />
+          </b-form-group>
+        </b-col>
       </b-row>
       <b-row>
         <b-col>Fecha de nacimiento:</b-col>
@@ -38,6 +41,14 @@ export default {
       type: Number,
       default: undefined,
     },
+  },
+  data() {
+    return {
+      genderOptions: [
+        { text: 'Masculino', value: false },
+        { text: 'Femenino', value: true },
+      ],
+    }
   },
   computed: {
     profile() {

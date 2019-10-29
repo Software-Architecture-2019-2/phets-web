@@ -19,7 +19,7 @@
       </b-row>
       <b-row>
         <b-col>Genero:</b-col>
-        <b-col>{{ animalItem.gender }}</b-col>
+        <b-col>{{ gender(animalItem.gender) }}</b-col>
       </b-row>
       <b-row>
         <b-col>Fecha de nacimiento:</b-col>
@@ -39,13 +39,19 @@ export default {
       type: Number,
       default: undefined,
     },
+    animal: {
+      type: Object,
+      default: undefined
+    },
   },
   computed: {
     profile() {
       return this.$store.state.todos
     },
     ...mapState({
-      animalItem: (state) => state.animal.item,
+      animalItem(state) {
+        return this.animal || state.animal.item 
+      },
     }),
   },
   created() {
@@ -54,6 +60,11 @@ export default {
     } else if (this.animalItem === undefined) {
       this.$router.go(-1)
     }
+  },
+  methods: {
+    gender(gender) {
+      return gender ? 'Femenino' : 'Masculino'
+    },
   },
 }
 </script>
