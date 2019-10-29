@@ -141,8 +141,8 @@ export default {
     return {
       searching: false,
       genderOptions: [
-        { text: 'Masculino', value: true },
-        { text: 'Femenino', value: false },
+        { text: 'Masculino', value: false },
+        { text: 'Femenino', value: true },
       ],
       filter: {
         animalType: null,
@@ -231,7 +231,7 @@ export default {
       return '-' + str
     },
     gender(gender) {
-      return gender ? 'Masculino' : 'Femenino'
+      return gender ? 'Femenino' : 'Masculino'
     },
     async toPetProfile(id) {
       await this.$store.dispatch(ACTIONS.ANIMAL_GET, id)

@@ -121,7 +121,7 @@ export default {
       }
     },
     gender(gender) {
-      return gender ? 'Masculino' : 'Femenino'
+      return gender ? 'Femenino' : 'Masculino' 
     },
   },
 }
