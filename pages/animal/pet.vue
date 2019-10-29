@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import PetData from '~/components/PetData'
 import { ACTIONS } from '~/constants/VuexConstants'
 
@@ -18,12 +19,20 @@ export default {
   },
   data() {
     return {
-      id: this.$route.params.id,
+      idAnimal: this.$route.params.id,
     }
   },
   computed: {
     profile() {
       return this.$store.state.todos
+    },
+    ...mapState({
+      animalItem: (state) => state.animal.item,
+    }),
+  },
+  methods: {
+    get() {
+      this.$store.dispatch(ACTIONS.ANIMAL_GET, this.idAnimal)
     },
   },
 }

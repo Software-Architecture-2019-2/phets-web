@@ -12,10 +12,7 @@
             class="mb-4"
           >
             <b-card no-body class="animal-card">
-              <file-preview
-                v-if="animal.media.length"
-                :id="animal.media[0]"
-              />
+              <file-preview v-if="animal.media.length" :id="animal.media[0]" />
               <b-card-img
                 v-else
                 :src="
@@ -53,6 +50,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import { ACTIONS } from '~/constants/VuexConstants'
 
 export default {
   data() {

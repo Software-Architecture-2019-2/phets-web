@@ -14,14 +14,16 @@
       <b-navbar-nav class="ml-auto">
         <b-nav-item-dropdown text="Notifications" right>
           <b-col
-              v-for="(notification, i) in UserNotif.data"
-              :key="i"
-              lg="4"
-              md="6"
-              sm="12"
-              class="mb-4"
-            >
-            <b-dropdown-item href="#">{{notification.notification_body}}</b-dropdown-item>
+            v-for="(notification, i) in UserNotif.data"
+            :key="i"
+            lg="4"
+            md="6"
+            sm="12"
+            class="mb-4"
+          >
+            <b-dropdown-item href="#">{{
+              notification.notification_body
+            }}</b-dropdown-item>
           </b-col>
         </b-nav-item-dropdown>
         <b-nav-form>

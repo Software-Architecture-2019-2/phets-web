@@ -1,7 +1,7 @@
 import GraphQLUtil from '~/util/GraphQL'
 
 export const state = () => ({
-    UserNotif: [],
+  UserNotif: [],
 })
 
 export const mutations = {

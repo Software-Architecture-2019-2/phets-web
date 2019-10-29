@@ -41,7 +41,7 @@ export default {
     },
     animal: {
       type: Object,
-      default: undefined
+      default: undefined,
     },
   },
   data() {
@@ -61,7 +61,7 @@ export default {
     },
     ...mapState({
       animalItem(state) {
-        return this.animal || state.animal.item 
+        return this.animal || state.animal.item
       },
     }),
   },

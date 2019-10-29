@@ -14,18 +14,27 @@
       </b-row>
       <b-row>
         <b-col>Raza:</b-col>
-        <b-form-input id="breed-input" v-model="animalItem.breed"></b-form-input>
+        <b-form-input
+          id="breed-input"
+          v-model="animalItem.breed"
+        ></b-form-input>
       </b-row>
       <b-row>
         <b-col>
           <b-form-group label="Género">
-            <b-form-radio-group v-model="animalItem.gender" :options="genderOptions" />
+            <b-form-radio-group
+              v-model="animalItem.gender"
+              :options="genderOptions"
+            />
           </b-form-group>
         </b-col>
       </b-row>
       <b-row>
         <b-col>Fecha de nacimiento:</b-col>
-        <b-form-input id="birthdate-input" v-model="animalItem.birthdate"></b-form-input>
+        <b-form-input
+          id="birthdate-input"
+          v-model="animalItem.birthdate"
+        ></b-form-input>
       </b-row>
     </b-card>
   </div>

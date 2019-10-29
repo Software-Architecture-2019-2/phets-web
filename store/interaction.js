@@ -2,7 +2,7 @@ import GraphQLUtil from '~/util/GraphQL'
 
 export const actions = {
   async phet({ commit }, { idFrom, idTo, like }) {
-    const fields = ['id','idMain','idSecondary','match1','match2']
+    const fields = ['id', 'idMain', 'idSecondary', 'match1', 'match2']
     const gql = {
       type: 'mutation',
       name: 'createInteraction',

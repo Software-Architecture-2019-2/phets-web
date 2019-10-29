@@ -21,7 +21,7 @@
         </b-form-group>
       </b-col>
     </b-row>
-    <b-row align-v="center" align-h="center" v-if="animals.length">
+    <b-row v-if="animals.length" align-v="center" align-h="center">
       <b-col cols="auto">
         <pet-data :animal="animals[0]" />
       </b-col>
@@ -121,7 +121,7 @@ export default {
       }
     },
     gender(gender) {
-      return gender ? 'Femenino' : 'Masculino' 
+      return gender ? 'Femenino' : 'Masculino'
     },
   },
 }

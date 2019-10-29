@@ -24,6 +24,6 @@ export const ACTIONS = {
   EVENT_RESET: 'event/reset',
 
   NOTIF_GETBYUSER: 'notifications/userNotifications',
-  
-  PHETS_PHET: 'interaction/phet'
+
+  PHETS_PHET: 'interaction/phet',
 }
