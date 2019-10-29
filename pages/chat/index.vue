@@ -1,16 +1,17 @@
 <template>
   <b-card class="card" no-body>
     <b-tabs class="tabs" pills card vertical nav-wrapper-class="w-25">
-      <b-tab @click="getChannel" title="Friend name" class="chat">
-        <b-card-title>Friend Name</b-card-title>
+      <b-tab @click="getChannel" title="Andrew" class="chat">
+        <b-card-title>Andrew</b-card-title>
         <hr />
         <div class="messages">
           <b-card-text
-            v-for="(message, i) in messages"
+            v-for="(msg, i) in messages"
             :key="i"
             v-b-tooltip.hover
-            title="message.sent == 'andreavilan@gmail.com' ? 'Enviado' : 'Recibido'"
-          >{{ message.message }}</b-card-text>
+            v-bind:style="[ msg.sentEmail == message.sent ? {'text-align': 'right' } : {'text-align': 'left'} ]"
+            v-bind:title="[ msg.sentEmail == message.sent ? 'Enviado' : 'Recibido' ]"
+          >{{ msg.message }}</b-card-text>
         </div>
         <hr />
         <b-input-group>
@@ -72,6 +73,7 @@ export default {
               res.docs.forEach((doc) => {
                 this.messages.push(doc.data())
               })
+              console.log(this.messages)
             })
           } else {
             query2.onSnapshot((res) => {
@@ -93,8 +95,8 @@ export default {
       this.getMessages = true
     },
     sendMessage() {
-      console.log('object')
       this.$store.dispatch(ACTIONS.MESSAGE_SENT, this.message)
+      // this.message.content = ''
     },
   },
 }

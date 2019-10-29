@@ -1,7 +1,7 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 if (!firebase.apps.length) {
-  const config = {
+  const firebaseConfig = {
     apiKey: 'AIzaSyBYDCcObzoVQcs_fxdtJ4k32cCe-IXtUW4',
     authDomain: 'sa-hotdog.firebaseapp.com',
     databaseURL: 'https://sa-hotdog.firebaseio.com',
@@ -11,7 +11,7 @@ if (!firebase.apps.length) {
     appId: '1:650348011175:web:8210fbccdfed4363ba8582',
     measurementId: 'G-EW6NZ9394V',
   }
-  firebase.initializeApp(config)
+  firebase.initializeApp(firebaseConfig)
   firebase.firestore().settings({ timestampsInSnapshots: true })
 }
 const fireDb = firebase.firestore()

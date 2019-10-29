@@ -12,7 +12,7 @@ export const mutations = {
 
 export const actions = {
   async sent({ commit }, message) {
-    const fields = ['token']
+    const fields = ['data']
     const gql = {
       type: 'mutation',
       name: 'createMessage',
