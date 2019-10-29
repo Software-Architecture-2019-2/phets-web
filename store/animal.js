@@ -85,6 +85,13 @@ export const actions = {
       'page',
       'totalElements',
     ]
+    // Removes null values from obj
+    filter = Object.entries(filter)
+      .filter((entry) => entry[1] !== null)
+      .reduce((accumulator, current) => {
+        accumulator[current[0]] = current[1]
+        return accumulator
+      }, {})
     const gql = {
       type: 'query',
       name: 'allAnimalsPaged',
@@ -101,12 +108,18 @@ export const actions = {
       console.error('Not able to load animals')
     }
   },
-  async getOwn({ commit }, username) {
-    const fields = ['id', 'name']
+  async getOwn({ commit }) {
+    const fields = [
+      'id',
+      'name',
+      'gender',
+      'adoption',
+      { name: 'animal_type', fields: ['id', 'value'] },
+    ]
     const gql = {
       type: 'query',
       name: 'allAnimalsByUser',
-      params: [{ name: 'username', value: username, type: 'String!' }], // TODO: Change for session user
+      params: [{ name: 'username', value: 'username', type: 'String!' }], // TODO: Change for session user
       fields,
     }
     const animalList = await GraphQLUtil.request(this.$axios, gql)

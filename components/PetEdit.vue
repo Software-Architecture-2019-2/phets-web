@@ -1,7 +1,6 @@
 <template>
   <div class="dataPet">
     <b-card
-      v-if="animalItem"
       title="Mascota:"
       img-src="https://picsum.photos/600/300/?image=25"
       img-alt="Image"
@@ -11,19 +10,22 @@
       class="mb-2"
     >
       <b-row>
-        <h2>{{ animalItem.name }}</h2>
+        <b-form-input id="name-input" v-model="animalItem.name"></b-form-input>
       </b-row>
       <b-row>
         <b-col>Raza:</b-col>
-        <b-col>{{ animalItem.breed }}</b-col>
+        <b-form-input id="breed-input" v-model="animalItem.breed"></b-form-input>
       </b-row>
       <b-row>
-        <b-col>Genero:</b-col>
-        <b-col>{{ gender(animalItem.gender) }}</b-col>
+        <b-col>
+          <b-form-group label="Género">
+            <b-form-radio-group v-model="animalItem.gender" :options="genderOptions" />
+          </b-form-group>
+        </b-col>
       </b-row>
       <b-row>
         <b-col>Fecha de nacimiento:</b-col>
-        <b-col>{{ animalItem.birthdate }}</b-col>
+        <b-form-input id="birthdate-input" v-model="animalItem.birthdate"></b-form-input>
       </b-row>
     </b-card>
   </div>
@@ -39,20 +41,13 @@ export default {
       type: Number,
       default: undefined,
     },
-    animal: {
-      type: Object,
-      default: undefined
-    },
   },
   data() {
     return {
-      model: {
-        id: null,
-        name: undefined,
-        breed: undefined,
-        gender: undefined,
-        birthdate: undefined,
-      },
+      genderOptions: [
+        { text: 'Masculino', value: false },
+        { text: 'Femenino', value: true },
+      ],
     }
   },
   computed: {
@@ -60,22 +55,11 @@ export default {
       return this.$store.state.todos
     },
     ...mapState({
-      animalItem(state) {
-        return this.animal || state.animal.item 
-      },
+      animalItem: (state) => state.animal.item,
     }),
   },
   created() {
-    if (this.idAnimal) {
-      this.$store.dispatch(ACTIONS.ANIMAL_GET, this.idAnimal)
-    } else if (this.animalItem === undefined) {
-      this.$router.go(-1)
-    }
-  },
-  methods: {
-    gender(gender) {
-      return gender ? 'Femenino' : 'Masculino'
-    },
+    this.$store.dispatch(ACTIONS.ANIMAL_GET, this.idAnimal)
   },
 }
 </script>

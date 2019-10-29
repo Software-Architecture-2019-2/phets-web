@@ -1,0 +1,10 @@
+version: "2.1"
+services:
+  phets-web:
+    container_name: phets-web
+    build: .
+    ports:
+      - "5000:3000"
+    environment:
+      NUXT_HOST: 0.0.0.0
+      NUXT_PORT: 3000

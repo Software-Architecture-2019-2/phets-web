@@ -80,7 +80,7 @@ export default {
     if (this.event) {
       this.model = { ...this.event }
     }
-    this.$store.dispatch(ACTIONS.ANIMAL_OWN, 'username') // TODO: Change for session user
+    this.$store.dispatch(ACTIONS.ANIMAL_OWN) // TODO: Change for session user
   },
   destroyed() {
     this.$store.dispatch(ACTIONS.EVENT_RESET)
