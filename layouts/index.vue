@@ -4,7 +4,38 @@
   </div>
 </template>
 
-<style>
+<script>
+import { mapState } from 'vuex'
+import { ACTIONS } from '~/constants/VuexConstants'
+
+export default {
+  computed: {
+    ...mapState({
+      session: (state) => state.auth.session,
+    }),
+  },
+  watch: {
+    session() {
+      this.validateSession()
+    },
+  },
+  beforeCreate() {
+    this.$store.dispatch(ACTIONS.SESSION_LOAD)
+  },
+  created() {
+    this.validateSession()
+  },
+  methods: {
+    validateSession() {
+      if (this.session) {
+        this.$router.push('/home')
+      }
+    },
+  },
+}
+</script>
+
+<style scoped>
 html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Helvetica Neue', Arial, sans-serif;

@@ -1,9 +1,10 @@
 <template>
-  <div class="container">
+  <div v-if="user" class="container">
     <div class="text-left">
       <h1>Perfil</h1>
       <div>
         <b-card
+          v-if="model"
           title="Descripcion:"
           img-src="https://picsum.photos/600/300/?image=25"
           img-alt="Image"
@@ -49,32 +50,21 @@
 
 <script>
 import { mapState } from 'vuex'
+import { ACTIONS } from '~/constants/VuexConstants'
 
 export default {
-  data() {
-    return {
-      model: {
-        id: null,
-        name: undefined,
-        lastName: undefined,
-        username: undefined,
-        email: undefined,
-        description: undefined,
-      },
-    }
-  },
   computed: {
-    profile() {
-      return this.$store.state.todos
-    },
     ...mapState({
       model: (state) => state.user.current,
     }),
   },
+  created() {
+    this.$store.dispatch(ACTIONS.USER_GET_PROFILE)
+  },
 }
 </script>
 
-<style>
+<style scoped>
 .container {
   margin: 0 auto;
   min-height: 100vh;
@@ -93,4 +83,4 @@ export default {
   color: #35495e;
   letter-spacing: 1px;
 }
-
+</style>

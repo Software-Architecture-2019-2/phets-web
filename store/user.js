@@ -1,8 +1,9 @@
 import GraphQLUtil from '~/util/GraphQL'
+import { ACTIONS } from '~/constants/VuexConstants'
 
 export const state = () => ({
-  list: [],
-  current: undefined,
+    list: [],
+    item: undefined,
 })
 
 export const mutations = {
@@ -18,7 +19,7 @@ export const actions = {
   async getList({ commit }) {
     const fields = [
       'id',
-      'name',
+      'firstName',
       'lastName',
       'username',
       'email',
@@ -39,7 +40,7 @@ export const actions = {
   async get({ commit }, username) {
     const fields = [
       'id',
-      'name',
+      'firstName',
       'lastName',
       'username',
       'email',
@@ -58,10 +59,13 @@ export const actions = {
       console.error('Not able to load user')
     }
   },
+  getProfile() {
+    this.dispatch(ACTIONS.USER_GET, this.state.auth.session.username)
+  },
   async create({ commit }, user) {
     const fields = [
       'id',
-      'name',
+      'firstName',
       'lastName',
       'username',
       'email',
@@ -83,7 +87,7 @@ export const actions = {
   async edit({ commit }, user) {
     const fields = [
       'id',
-      'name',
+      'firstName',
       'lastName',
       'username',
       'email',
@@ -97,7 +101,7 @@ export const actions = {
     }
     const editedUser = await GraphQLUtil.request(this.$axios, gql)
     if (editedUser) {
-      console.log('user succesfully edited')
+      console.log('User succesfully edited')
     } else {
       console.error('Error saving user')
     }

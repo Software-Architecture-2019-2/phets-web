@@ -1,35 +1,77 @@
-import { FILE_MS_URI, HTTP_STATUS } from '~/constants/AxiosConstants'
+import GraphQLUtil from '~/util/GraphQL'
 
 export const state = () => ({
-  loginSuccess: false,
+  session: undefined,
 })
 
 export const mutations = {
-  set(state, success) {
-    state.loginSuccess = success
+  setSession(state, session) {
+    state.session = session
   },
 }
 
 export const actions = {
-  async login({ commit }, { username, password }) {
-    const URI = `${FILE_MS_URI}`
-    const body = {
-      send_code: {
-        login: username,
-      },
-    }
-    let success = false
-    try {
-      const response = await this.$axios.post(URI, body)
-      if (response.status === HTTP_STATUS.OK) {
-        success = true
-      } else {
-        throw new Error('Login failed')
+  load({ commit }) {
+    if (process.browser) {
+      if (localStorage.getItem('token') !== undefined) {
+        commit('setSession', {
+          token: localStorage.getItem('token'),
+          username: localStorage.getItem('username'),
+        })
       }
-    } catch (error) {
-      console.error(error)
-    } finally {
-      commit('set', success)
+    }
+  },
+  async login({ commit }, login) {
+    const fields = ['token']
+    const gql = {
+      type: 'mutation',
+      name: 'login',
+      params: [{ name: 'credentials', value: login, type: 'UserCredentials!' }],
+      fields,
+    }
+    const response = await GraphQLUtil.request(this.$axios, gql)
+    if (response.token) {
+      if (process.browser) {
+        localStorage.setItem('token', response.token)
+        localStorage.setItem('username', login.username)
+      }
+      commit('setSession', { token: response.token, username: login.username })
+    } else {
+      console.error('Login error')
+    }
+  },
+  async logout({ commit, state }) {
+    const gql = {
+      type: 'mutation',
+      name: 'destroySession',
+      params: [
+        {
+          name: 'token',
+          value: { token: state.session.token },
+          type: 'TokenInput!',
+        },
+      ],
+    }
+    await GraphQLUtil.request(this.$axios, gql)
+    commit('setSession', undefined)
+    if (process.browser) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('username')
+    }
+  },
+  async register({ commit }, register) {
+    const fields = ['firstName', 'lastName', 'username', 'email', 'password']
+    const gql = {
+      type: 'mutation',
+      name: 'register',
+      params: [{ name: 'user', value: register, type: 'UserInput!' }],
+      fields,
+    }
+    const res = await GraphQLUtil.request(this.$axios, gql)
+    if (res) {
+      console.info('Success registration')
+    } else {
+      console.error('Register error')
     }
   },
 }

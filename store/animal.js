@@ -119,7 +119,13 @@ export const actions = {
     const gql = {
       type: 'query',
       name: 'allAnimalsByUser',
-      params: [{ name: 'username', value: 'username', type: 'String!' }], // TODO: Change for session user
+      params: [
+        {
+          name: 'username',
+          value: this.state.auth.session.username,
+          type: 'String!',
+        },
+      ],
       fields,
     }
     const animalList = await GraphQLUtil.request(this.$axios, gql)

@@ -1,5 +1,8 @@
 export const ACTIONS = {
+  SESSION_LOAD: 'auth/load',
   LOGIN: 'auth/login',
+  LOGOUT: 'auth/logout',
+  REGISTER: 'auth/register',
 
   GET_FILE_PATH: 'file/get',
   UPLOAD_FILE: 'file/upload',
@@ -16,6 +19,7 @@ export const ACTIONS = {
   USER_CREATE: 'user/create',
   USER_GET: 'user/get',
   USER_EDIT: 'user/edit',
+  USER_GET_PROFILE: 'user/getProfile',
 
   EVENT_LIST: 'event/getList',
   EVENT_GET: 'event/get',
@@ -26,4 +30,6 @@ export const ACTIONS = {
   NOTIF_GETBYUSER: 'notifications/userNotifications',
 
   PHETS_PHET: 'interaction/phet',
+  
+  MESSAGE_SENT: 'chat/sent',
 }

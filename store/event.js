@@ -20,7 +20,13 @@ export const actions = {
     const gql = {
       type: 'query',
       name: 'allEventsByUser',
-      params: [{ name: 'username', value: 'username', type: 'String!' }], // TODO: Change for session user
+      params: [
+        {
+          name: 'username',
+          value: this.state.auth.session.username,
+          type: 'String!',
+        },
+      ],
       fields,
     }
     const data = await GraphQLUtil.request(this.$axios, gql)

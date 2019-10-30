@@ -5,6 +5,7 @@
         <span class="h1">Phets</span>
       </b-col>
     </b-row>
+    <template v-if="ownPets.length">
     <b-row align-v="center" class="my-3">
       <b-col>
         <p v-if="selected">
@@ -38,7 +39,9 @@
         </b-row>
       </b-col>
     </b-row>
-    <p v-else>No hay animales para phet</p>
+      <p v-else>No hay animales para phet.</p>
+    </template>
+    <p v-else>No has registrado animales aún.</p>
   </b-container>
 </template>
 
@@ -61,7 +64,7 @@ export default {
         animalType: null,
         gender: null,
         adoption: false,
-        notUser: 'username', // TODO: Change for user session
+        notUser: this.$store.state.auth.session.username,
       },
       paginate: {
         perPage: 5,
@@ -93,11 +96,9 @@ export default {
   },
   async created() {
     await this.$store.dispatch(ACTIONS.ANIMAL_OWN)
-    if (this.ownPets.length === 0) {
-      this.$router.go(-1)
-      return
+    if (this.ownPets.length) {
+      this.selected = this.ownPets[0].value
     }
-    this.selected = this.ownPets[0].value
   },
   methods: {
     search() {

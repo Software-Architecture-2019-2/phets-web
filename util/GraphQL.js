@@ -19,7 +19,9 @@ export default class GraphQLUtil {
   }
 
   static formatFields(fields) {
-    let str = ' {\n'
+    let str = ' '
+    if (fields && fields.length) {
+      str += '{\n'
     for (const field of fields || []) {
       if (typeof field === 'string') {
         str += `${field}\n`
@@ -28,6 +30,7 @@ export default class GraphQLUtil {
       }
     }
     str += '}\n'
+    }
     return str
   }
 

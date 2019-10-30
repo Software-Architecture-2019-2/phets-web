@@ -1,6 +1,6 @@
 <template>
   <b-card title="Mis eventos">
-    <b-button variant="success" to="form">+ Agregar un evento</b-button>
+    <b-button variant="success" to="/events/form">+ Agregar un evento</b-button>
     <b-tabs pills card vertical>
       <events-tab
         id="future-events"
