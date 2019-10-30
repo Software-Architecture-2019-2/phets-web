@@ -23,7 +23,6 @@
             </b-col>
           </b-row>
 
-
           <b-row>
             <b-col sm="2">
               <label for="usuario-input">Nombre de usuario:</label>
@@ -41,7 +40,6 @@
               <label id="correo-input">{{ model.email }}</label>
             </b-col>
           </b-row>
-
         </b-card>
       </div>
     </div>

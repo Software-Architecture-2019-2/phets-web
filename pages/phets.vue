@@ -6,39 +6,39 @@
       </b-col>
     </b-row>
     <template v-if="ownPets.length">
-    <b-row align-v="center" class="my-3">
-      <b-col>
-        <p v-if="selected">
-          Buscando mascotas de género
-          <i>{{ gender(!selected.gender) }}</i> de tipo
-          <i>{{ selected.animal_type.value }}</i>
-          para
-          <b>{{ selected.name }}</b>
-        </p>
-      </b-col>
-      <b-col v-if="ownPets.length">
-        <b-form-group label="Cambiar mascota seleccionada:" label-cols-md="6">
-          <b-select v-model="selected" :options="ownPets" />
-        </b-form-group>
-      </b-col>
-    </b-row>
-    <b-row v-if="animals.length" align-v="center" align-h="center">
-      <b-col cols="auto">
-        <pet-data :animal="animals[0]" />
-      </b-col>
-      <b-col cols="auto">
-        <b-row class="button-group">
-          <b-btn class="btn-xxl" variant="success" pill @click="phet(true)">
-            <font-awesome-icon :icon="['fas', 'check-circle']" />
-          </b-btn>
-        </b-row>
-        <b-row class="button-group">
-          <b-btn class="btn-xxl" variant="danger" pill @click="phet(false)">
-            <font-awesome-icon :icon="['fa', 'times-circle']" />
-          </b-btn>
-        </b-row>
-      </b-col>
-    </b-row>
+      <b-row align-v="center" class="my-3">
+        <b-col>
+          <p v-if="selected">
+            Buscando mascotas de género
+            <i>{{ gender(!selected.gender) }}</i> de tipo
+            <i>{{ selected.animal_type.value }}</i>
+            para
+            <b>{{ selected.name }}</b>
+          </p>
+        </b-col>
+        <b-col v-if="ownPets.length">
+          <b-form-group label="Cambiar mascota seleccionada:" label-cols-md="6">
+            <b-select v-model="selected" :options="ownPets" />
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row v-if="animals.length" align-v="center" align-h="center">
+        <b-col cols="auto">
+          <pet-data :animal="animals[0]" />
+        </b-col>
+        <b-col cols="auto">
+          <b-row class="button-group">
+            <b-btn class="btn-xxl" variant="success" pill @click="phet(true)">
+              <font-awesome-icon :icon="['fas', 'check-circle']" />
+            </b-btn>
+          </b-row>
+          <b-row class="button-group">
+            <b-btn class="btn-xxl" variant="danger" pill @click="phet(false)">
+              <font-awesome-icon :icon="['fa', 'times-circle']" />
+            </b-btn>
+          </b-row>
+        </b-col>
+      </b-row>
       <p v-else>No hay animales para phet.</p>
     </template>
     <p v-else>No has registrado animales aún.</p>

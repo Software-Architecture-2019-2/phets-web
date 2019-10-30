@@ -1,7 +1,7 @@
 <template>
   <b-card class="card" no-body>
     <b-tabs class="tabs" pills card vertical nav-wrapper-class="w-25">
-      <b-tab @click="getChannel" title="Andrew" class="chat">
+      <b-tab title="Andrew" class="chat" @click="getChannel">
         <b-card-title>Andrew</b-card-title>
         <hr />
         <div class="messages">
@@ -9,15 +9,25 @@
             v-for="(msg, i) in messages"
             :key="i"
             v-b-tooltip.hover
-            v-bind:style="[ msg.sentEmail == message.sent ? {'text-align': 'right' } : {'text-align': 'left'} ]"
-            v-bind:title="[ msg.sentEmail == message.sent ? 'Enviado' : 'Recibido' ]"
-          >{{ msg.message }}</b-card-text>
+            :style="[
+              msg.sentEmail == message.sent
+                ? { 'text-align': 'right' }
+                : { 'text-align': 'left' },
+            ]"
+            :title="[msg.sentEmail == message.sent ? 'Enviado' : 'Recibido']"
+            >{{ msg.message }}</b-card-text
+          >
         </div>
         <hr />
         <b-input-group>
-          <b-form-input type="text" v-model="message.content"></b-form-input>
+          <b-form-input v-model="message.content" type="text"></b-form-input>
           <b-input-group-append>
-            <b-button variant="outline-secondary" type="submit" v-on:click="sendMessage()">Enviar</b-button>
+            <b-button
+              variant="outline-secondary"
+              type="submit"
+              @click="sendMessage()"
+              >Enviar</b-button
+            >
           </b-input-group-append>
         </b-input-group>
       </b-tab>
@@ -26,13 +36,14 @@
 </template>
 
 <script>
-import { ACTIONS } from '../../constants/VuexConstants'
-import { fireDb } from '~/plugins/firebase.js'
+import { ACTIONS } from '~/constants/VuexConstants'
+import { fireDb } from '~/plugins/firebase'
 
 export default {
   props: {
     messages: {
-      type: [],
+      type: Array,
+      default: () => [],
     },
   },
   data() {

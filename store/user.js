@@ -2,8 +2,8 @@ import GraphQLUtil from '~/util/GraphQL'
 import { ACTIONS } from '~/constants/VuexConstants'
 
 export const state = () => ({
-    list: [],
-    item: undefined,
+  list: [],
+  item: undefined,
 })
 
 export const mutations = {

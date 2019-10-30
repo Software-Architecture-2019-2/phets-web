@@ -30,6 +30,6 @@ export const ACTIONS = {
   NOTIF_GETBYUSER: 'notifications/userNotifications',
 
   PHETS_PHET: 'interaction/phet',
-  
+
   MESSAGE_SENT: 'chat/sent',
 }

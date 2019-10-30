@@ -22,14 +22,14 @@ export default class GraphQLUtil {
     let str = ' '
     if (fields && fields.length) {
       str += '{\n'
-    for (const field of fields || []) {
-      if (typeof field === 'string') {
-        str += `${field}\n`
-      } else {
-        str += `${field.name}${GraphQLUtil.formatFields(field.fields)}`
+      for (const field of fields || []) {
+        if (typeof field === 'string') {
+          str += `${field}\n`
+        } else {
+          str += `${field.name}${GraphQLUtil.formatFields(field.fields)}`
+        }
       }
-    }
-    str += '}\n'
+      str += '}\n'
     }
     return str
   }

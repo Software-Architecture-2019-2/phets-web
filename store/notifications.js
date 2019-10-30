@@ -13,7 +13,7 @@ export const mutations = {
 export const actions = {
   async userNotifications({ commit }) {
     const fields = [
-      'notification_id',
+      'id',
       'notification_body',
       'notification_state',
       'notification_type',
@@ -21,13 +21,14 @@ export const actions = {
     const gql = {
       type: 'query',
       name: 'userNotifications',
+      params: [{ name: 'id', value: 1, type: 'Int!' }],
       fields,
     }
     const UserNotif = await GraphQLUtil.request(this.$axios, gql)
     if (UserNotif) {
       commit('setUserNotif', UserNotif)
     } else {
-      console.error('Not able to load animal types')
+      console.error('Not able to load notifications')
     }
   },
 }

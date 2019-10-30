@@ -20,7 +20,7 @@
             }}</b-dropdown-item>
           </b-col>
         </b-nav-item-dropdown>
-        
+
         <b-nav-item to="/phets">Phets</b-nav-item>
         <b-nav-item to="/adopt">Adoptar</b-nav-item>
         <b-nav-item to="/events">Eventos</b-nav-item>
@@ -69,7 +69,7 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch(ACTIONS.LOGOUT)
-    }
-  }
+    },
+  },
 }
 </script>
