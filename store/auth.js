@@ -1,10 +1,7 @@
-import { getData, setData } from 'nuxt-storage/local-storage'
 import GraphQLUtil from '~/util/GraphQL'
 
 export const state = () => ({
-  session: getData('token') !== undefined
-    ? { token: getData('token'), username: getData('username') }
-    : undefined,
+  session: undefined,
 })
 
 export const mutations = {
@@ -14,7 +11,17 @@ export const mutations = {
 }
 
 export const actions = {
-  async login({ commit, state }, login) {
+  load({ commit }) {
+    if (process.browser) {
+      if (localStorage.getItem('token') !== undefined) {
+        commit('setSession', {
+          token: localStorage.getItem('token'),
+          username: localStorage.getItem('username'),
+        })
+      }
+    }
+  },
+  async login({ commit }, login) {
     const fields = ['token']
     const gql = {
       type: 'mutation',
@@ -22,11 +29,13 @@ export const actions = {
       params: [{ name: 'credentials', value: login, type: 'UserCredentials!' }],
       fields,
     }
-    const { token } = await GraphQLUtil.request(this.$axios, gql)
-    if (token) {
-      setData('token', token)
-      setData('username', login.username)
-      commit('setSession', { token, username: login.username })
+    const response = await GraphQLUtil.request(this.$axios, gql)
+    if (response.token) {
+      if (process.browser) {
+        localStorage.setItem('token', response.token)
+        localStorage.setItem('username', login.username)
+      }
+      commit('setSession', { token: response.token, username: login.username })
     } else {
       console.error('Login error')
     }
@@ -45,6 +54,10 @@ export const actions = {
     }
     await GraphQLUtil.request(this.$axios, gql)
     commit('setSession', undefined)
+    if (process.browser) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('username')
+    }
   },
   async register({ commit }, register) {
     const fields = ['firstName', 'lastName', 'username', 'email', 'password']

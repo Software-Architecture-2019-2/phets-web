@@ -6,6 +6,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { ACTIONS } from '~/constants/VuexConstants'
 
 export default {
   computed: {
@@ -17,6 +18,9 @@ export default {
     session() {
       this.validateSession()
     },
+  },
+  beforeCreate() {
+    this.$store.dispatch(ACTIONS.SESSION_LOAD)
   },
   created() {
     this.validateSession()

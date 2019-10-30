@@ -31,7 +31,6 @@
     "firebase": "^7.2.2",
     "nuxt": "^2.10.2",
     "nuxt-fontawesome": "^0.4.0",
-    "nuxt-storage": "^1.2.2",
     "sass-loader": "^8.0.0",
     "vue-airbnb-style-datepicker": "^2.7.1",
     "vue-firestore": "^0.3.22"

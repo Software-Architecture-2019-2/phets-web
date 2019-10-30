@@ -1,4 +1,5 @@
 export const ACTIONS = {
+  SESSION_LOAD: 'auth/load',
   LOGIN: 'auth/login',
   LOGOUT: 'auth/logout',
   REGISTER: 'auth/register',
