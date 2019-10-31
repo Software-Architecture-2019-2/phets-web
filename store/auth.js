@@ -28,7 +28,7 @@ export const actions = {
       fields,
     }
     const response = await GraphQLUtil.request(this.$axios, gql)
-    if (response.token) {
+    if (response) {
       if (process.browser) {
         localStorage.setItem('token', response.token)
         localStorage.setItem('username', login.username)

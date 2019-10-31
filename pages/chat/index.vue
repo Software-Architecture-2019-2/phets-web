@@ -112,7 +112,8 @@ export default {
   },
 }
 </script>
-<style>
+
+<style scoped>
 .card {
   height: calc(100vh - 56px);
 }
