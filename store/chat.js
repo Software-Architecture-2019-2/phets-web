@@ -16,10 +16,9 @@ export const actions = {
     const gql = {
       type: 'mutation',
       name: 'createMessage',
-      params: [{ name: 'message', value: { message }, type: 'MessageInput!' }],
+      params: [{ name: 'message', value: message, type: 'MessageInput!' }],
       fields,
     }
-    console.log(gql)
     const res = await GraphQLUtil.request(this.$axios, gql)
     if (res) {
       console.info('Message sent')

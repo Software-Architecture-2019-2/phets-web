@@ -25,6 +25,7 @@ export const ACTIONS = {
   EVENT_RESET: 'event/reset',
 
   PHETS_PHET: 'interaction/phet',
+  PHETS_GET: 'interaction/getMatchHistory',
 
   MESSAGE_SENT: 'chat/sent',
 }

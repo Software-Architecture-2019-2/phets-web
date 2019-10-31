@@ -8,6 +8,7 @@
       <b-navbar-nav class="ml-auto">
         <b-nav-item to="/phets">Phets</b-nav-item>
         <b-nav-item to="/adopt">Adoptar</b-nav-item>
+        <b-nav-item to="/chat">Chat</b-nav-item>
         <b-nav-item to="/events">Eventos</b-nav-item>
         <b-nav-item>
           <font-awesome-icon :icon="['fas', 'bell']" />
