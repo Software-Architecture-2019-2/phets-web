@@ -24,19 +24,28 @@
         </b-col>
         <b-col>
           <b-form-group label="Género" label-class="font-weight-bold">
-            <b-form-radio-group v-model="animalItem.gender" :options="genderOptions" />
+            <b-form-radio-group
+              v-model="animalItem.gender"
+              :options="genderOptions"
+            />
           </b-form-group>
         </b-col>
       </b-row>
 
       <b-row>
         <b-col>
-          <b-form-group label="Fecha de nacimiento" label-class="font-weight-bold">
+          <b-form-group
+            label="Fecha de nacimiento"
+            label-class="font-weight-bold"
+          >
             <datepicker v-model="animalItem.birthdate" :max-date="new Date()" />
           </b-form-group>
         </b-col>
         <b-col>
-          <b-form-group label="Subida de imágenes" label-class="font-weight-bold">
+          <b-form-group
+            label="Subida de imágenes"
+            label-class="font-weight-bold"
+          >
             <b-form-file
               v-model="file"
               accept="image/*"
@@ -54,16 +63,23 @@
         variant="info"
         class="mx-1 text-truncate mw-badge"
       >
-        <font-awesome-icon :icon="['fa', 'times']" @click="files.splice(i, 1)" />
+        <font-awesome-icon
+          :icon="['fa', 'times']"
+          @click="files.splice(i, 1)"
+        />
         {{ name }}
       </b-badge>
 
       <b-row class="text-center mt-3">
         <b-col>
-          <b-button size="sm" type="submit" variant="outline-primary">Guardar Mascota</b-button>
+          <b-button size="sm" type="submit" variant="outline-primary"
+            >Guardar Mascota</b-button
+          >
         </b-col>
         <b-col>
-          <b-button size="sm" to="/animal/home" variant="outline-primary">Cancelar</b-button>
+          <b-button size="sm" to="/animal/home" variant="outline-primary"
+            >Cancelar</b-button
+          >
         </b-col>
       </b-row>
     </b-form>
@@ -149,4 +165,3 @@ export default {
 .mw-badge
   max-width: 200px
 </style>
-

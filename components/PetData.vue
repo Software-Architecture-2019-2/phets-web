@@ -81,7 +81,6 @@ export default {
 .animal-card
   width: 600px
   height: 430px
-
 </style>
 
 <style lang="sass">

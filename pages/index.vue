@@ -139,9 +139,11 @@ export default {
       this.$store.dispatch(ACTIONS.LOGIN, this.login)
     },
     async create() {
-      const registered = await this.$store.dispatch(ACTIONS.REGISTER, this.register)
-      if (registered)
-        this.$refs.register.hide()
+      const registered = await this.$store.dispatch(
+        ACTIONS.REGISTER,
+        this.register
+      )
+      if (registered) this.$refs.register.hide()
     },
   },
 }

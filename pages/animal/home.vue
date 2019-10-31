@@ -3,10 +3,12 @@
     <b-row class="my-5 h2 font-weight-bold home-title">
       <b-col>Mis mascotas</b-col>
       <b-col cols="auto">
-        <b-button to="/animal/create" variant="primary">Agregar Mascota</b-button>
+        <b-button to="/animal/create" variant="primary"
+          >Agregar Mascota</b-button
+        >
       </b-col>
     </b-row>
-    <b-card no-body class="w-100" v-if="own && own.length">
+    <b-card v-if="own && own.length" no-body class="w-100">
       <b-tabs card>
         <b-tab class="home-tab" title="Adopción" active>
           <b-row>
@@ -18,26 +20,29 @@
               sm="12"
               class="mb-4"
               :style="[
-                      animal.adoption
-                        ? { display: 'visible' }
-                        : { display: 'none' },
-                    ]"
+                animal.adoption ? { display: 'visible' } : { display: 'none' },
+              ]"
             >
               <b-card v-if="animal.adoption" no-body class="animal-card">
-                <file-preview v-if="animal.media.length" :id="animal.media[0]" />
+                <file-preview
+                  v-if="animal.media.length"
+                  :id="animal.media[0]"
+                />
                 <b-card-img
                   v-else
                   :src="
-                          `https://placekitten.com/480/210?image=${Math.floor(
-                            Math.random() * 20
-                          )}`
-                        "
+                    `https://placekitten.com/480/210?image=${Math.floor(
+                      Math.random() * 20
+                    )}`
+                  "
                   alt="Image"
                 />
                 <!-- TODO: Change for default image -->
                 <b-card-body>
                   <b-card-title>
-                    <b-link variant="link" @click="toPetProfile(animal.id)">{{ animal.name }}</b-link>
+                    <b-link variant="link" @click="toPetProfile(animal.id)">{{
+                      animal.name
+                    }}</b-link>
                     {{ age(animal.birthdate) }}
                   </b-card-title>
                   <b-card-sub-title>
@@ -59,25 +64,28 @@
               sm="12"
               class="mb-4"
               :style="[
-                      !animal.adoption
-                        ? { display: 'visible' }
-                        : { display: 'none' },
-                    ]"
+                !animal.adoption ? { display: 'visible' } : { display: 'none' },
+              ]"
             >
               <b-card no-body class="animal-card">
-                <file-preview v-if="animal.media.length" :id="animal.media[0]" />
+                <file-preview
+                  v-if="animal.media.length"
+                  :id="animal.media[0]"
+                />
                 <b-card-img
                   v-else
                   :src="
-                          `https://placekitten.com/480/210?image=${Math.floor(
-                            Math.random() * 20
-                          )}`
-                        "
+                    `https://placekitten.com/480/210?image=${Math.floor(
+                      Math.random() * 20
+                    )}`
+                  "
                   alt="Image"
                 />
                 <b-card-body>
                   <b-card-title>
-                    <b-link variant="link" @click="toPetProfile(animal.id)">{{ animal.name }}</b-link>
+                    <b-link variant="link" @click="toPetProfile(animal.id)">{{
+                      animal.name
+                    }}</b-link>
                     {{ age(animal.birthdate) }}
                   </b-card-title>
                   <b-card-sub-title>
