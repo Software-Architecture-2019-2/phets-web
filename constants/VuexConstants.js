@@ -9,6 +9,7 @@ export const ACTIONS = {
 
   ANIMAL_TYPES: 'animal/getTypes',
   ANIMAL_LIST: 'animal/getList',
+  ANIMAL_PHETS: 'animal/getPhets',
   ANIMAL_PAGE: 'animal/getFilteredPage',
   ANIMAL_OWN: 'animal/getOwn',
   ANIMAL_CREATE: 'animal/create',
@@ -30,6 +31,7 @@ export const ACTIONS = {
   NOTIF_GETBYUSER: 'notifications/userNotifications',
 
   PHETS_PHET: 'interaction/phet',
+  PHETS_GET: 'interaction/getMatchHistory',
 
   MESSAGE_SENT: 'chat/sent',
 }

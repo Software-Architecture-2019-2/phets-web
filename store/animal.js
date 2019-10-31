@@ -65,6 +65,37 @@ export const actions = {
       console.error('Not able to load animals')
     }
   },
+  async getPhets({ commit }, animal) {
+    const fields = [
+      'id',
+      'name',
+      'user',
+      'breed',
+      'gender',
+      'adoption',
+      'birthdate',
+      { name: 'animal_type', fields: ['id', 'value'] },
+      'media',
+    ]
+    const filter = {
+      animalId: animal,
+      username: this.state.auth.session.username,
+    }
+    const gql = {
+      type: 'query',
+      name: 'allPhets',
+      params: [
+        { name: 'filter', value: filter, type: 'PhetsFilter!' },
+      ],
+      fields,
+    }
+    const animalList = await GraphQLUtil.request(this.$axios, gql)
+    if (animalList) {
+      commit('setList', animalList)
+    } else {
+      console.error('Not able to load animals')
+    }
+  },
   async getFilteredPage({ commit }, { filter, pager }) {
     const fields = [
       {
@@ -160,6 +191,7 @@ export const actions = {
     const animal = await GraphQLUtil.request(this.$axios, gql)
     if (animal) {
       commit('set', animal)
+      return animal
     } else {
       console.error('Not able to load animal')
     }
