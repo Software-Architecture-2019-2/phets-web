@@ -3,15 +3,15 @@ import { ACTIONS } from '~/constants/VuexConstants'
 
 export const state = () => ({
   list: [],
-  item: undefined,
+  current: undefined,
 })
 
 export const mutations = {
   setList(state, users) {
     state.list = users
   },
-  set(state, user) {
-    state.item = user
+  setCurrent(state, user) {
+    state.current = user
   },
 }
 
@@ -54,7 +54,7 @@ export const actions = {
     }
     const user = await GraphQLUtil.request(this.$axios, gql)
     if (user) {
-      commit('set', user)
+      commit('setCurrent', user)
     } else {
       console.error('Not able to load user')
     }

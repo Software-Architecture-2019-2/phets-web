@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="text-left">
-      <h1>Editar Mascota</h1>
+      <h1>Agregar Mascota</h1>
       <b-card
         title="Editar Mascota:"
         img-src="https://picsum.photos/600/300/?image=25"
@@ -41,7 +41,7 @@
       </b-card>
       <b-row>
         <b-col>
-          <b-button>Guardar Cambios</b-button>
+          <b-button>Guardar Mascota</b-button>
         </b-col>
       </b-row>
     </div>
@@ -56,6 +56,14 @@ export default {
   data() {
     return {
       idAnimal: this.$route.params.id,
+      animalItem: {
+        name: '',
+        breed: '',
+        gender: '',
+        adoption: false,
+        birthdate: '',
+        user: this.username,
+      },
       genderOptions: [
         { text: 'Masculino', value: false },
         { text: 'Femenino', value: true },
@@ -63,16 +71,13 @@ export default {
     }
   },
   computed: {
-    profile() {
-      return this.$store.state.todos
-    },
     ...mapState({
-      animalItem: (state) => state.animal.item,
+      username: (state) => state.auth.session.username,
     }),
   },
   methods: {
-    edit() {
-      this.$store.dispatch(ACTIONS.ANIMAL_EDIT, this.animalItem)
+    create() {
+      this.$store.dispatch(ACTIONS.ANIMAL_GET, this.animalItem)
     },
     age(birthdate) {
       const birthday = new Date(birthdate)

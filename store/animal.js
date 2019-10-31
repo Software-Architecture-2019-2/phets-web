@@ -143,9 +143,13 @@ export const actions = {
     const fields = [
       'id',
       'name',
+      'user',
+      'breed',
       'gender',
       'adoption',
+      'birthdate',
       { name: 'animal_type', fields: ['id', 'value'] },
+      'media',
     ]
     const gql = {
       type: 'query',
