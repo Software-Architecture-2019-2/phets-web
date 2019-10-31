@@ -4,7 +4,6 @@
       <h1>Agregar Mascota</h1>
 
       <b-form @submit.prevent="createPet">
-        
         <b-form-group label="Nombre" label-class="font-weight-bold">
           <b-input v-model="animalItem.name" placeholder="ej: Firulais" />
         </b-form-group>
@@ -14,7 +13,10 @@
           label="Tipo de animal"
           label-class="font-weight-bold"
         >
-          <b-select v-model="animalItem.animal_type" :options="animalTypes" />
+          <b-select
+            v-model="animalItem.animal_type.id"
+            :options="animalTypes"
+          />
         </b-form-group>
 
         <b-form-group label="Raza" label-class="font-weight-bold">
@@ -25,8 +27,7 @@
           <slot name="label">
             <b-row class="button-height" align-v="center">
               <b-col class="font-weight-bold">Género</b-col>
-              <b-col v-show="animalItem.gender !== null" cols="auto">
-              </b-col>
+              <b-col v-show="animalItem.gender !== null" cols="auto"> </b-col>
             </b-row>
           </slot>
           <b-row align-h="between">
@@ -39,28 +40,25 @@
           </b-row>
         </b-form-group>
 
-        <b-form-group label="Fecha de nacimiento" label-class="font-weight-bold">
+        <b-form-group
+          label="Fecha de nacimiento"
+          label-class="font-weight-bold"
+        >
           <b-row>
+            Día:
+            <b-form-input id="day-input" v-model="this.day"></b-form-input>
             Mes:
-            <b-form-input
-              id="month-input"
-              v-model="this.month"
-            ></b-form-input>
+            <b-form-input id="month-input" v-model="this.month"></b-form-input>
             Año:
-            <b-form-input
-              id="year-input"
-              v-model="this.year"
-            ></b-form-input>
+            <b-form-input id="year-input" v-model="this.year"></b-form-input>
           </b-row>
         </b-form-group>
 
         <b-row>
           <b-col>
-            <b-button 
-              size="sm"
-              type="submit"
-              variant="outline-primary">
-              Guardar Mascota</b-button>
+            <b-button size="sm" type="submit" variant="outline-primary">
+              Guardar Mascota</b-button
+            >
           </b-col>
         </b-row>
       </b-form>
@@ -75,6 +73,7 @@ import { ACTIONS } from '~/constants/VuexConstants'
 export default {
   data() {
     return {
+      day: 1,
       month: 1,
       year: 2019,
       idAnimal: this.$route.params.id,
@@ -84,8 +83,12 @@ export default {
         breed: '',
         gender: '',
         adoption: false,
-        birthdate:  new Date(),
-        animal_type: ['id', 'value'],
+        birthdate: '',
+        animal_type: {
+          id: '',
+          value: '',
+        },
+        media: [],
       },
       genderOptions: [
         { text: 'Masculino', value: false },
@@ -118,16 +121,11 @@ export default {
   methods: {
     createPet() {
       this.animalItem.user = this.currentUser.username
-      console.log(this.animalItem)
-      this.birthday()
+      const date = `${this.year}-${this.month}-${this.day}`
+      this.animalItem.birthdate = date
+      this.animalItem.animal_type.value = this.animalTypes[this.animalItem.animal_type.id].value
       this.$store.dispatch(ACTIONS.ANIMAL_CREATE, this.animalItem)
       this.$router.push({ path: '/animal/home' })
-    },
-    birthday() {
-      const birthday = new Date()
-      birthday.setMonth = this.month
-      birthday.setFullYear = this.year
-      this.animalItem.birthdate = birthday
     },
     gender(gender) {
       return gender ? 'Femenino' : 'Masculino'

@@ -104,10 +104,17 @@
               class="mb-4"
             >
               <b-card no-body class="animal-card">
-                <file-preview v-if="animal.media.length" :id="animal.media[0]" />
+                <file-preview
+                  v-if="animal.media.length"
+                  :id="animal.media[0]"
+                />
                 <b-card-img
                   v-else
-                  :src="`https://placekitten.com/480/210?image=${Math.floor(Math.random() * 20)}`"
+                  :src="
+                    `https://placekitten.com/480/210?image=${Math.floor(
+                      Math.random() * 20
+                    )}`
+                  "
                   alt="Image"
                 />
                 <!-- TODO: Change for default image -->
@@ -123,14 +130,15 @@
                     {{ gender(animal.gender) }}
                   </b-card-sub-title>
                   <b-button
-                    class="send-message-btn"
                     v-b-tooltip.hover
+                    v-b-modal.sent-message
+                    class="send-message-btn"
                     title="Enviar mensaje"
                     type="submit"
                     variant="outline-primary"
-                    v-b-modal.sent-message
                     @click="setInfo(animal.id)"
-                  >Enviar mensaje</b-button>
+                    >Enviar mensaje</b-button
+                  >
                 </b-card-body>
               </b-card>
             </b-col>
@@ -154,14 +162,15 @@
         </b-row>
       </b-col>
     </b-row>
-    <b-modal hide-footer id="sent-message" title="Enviar mensaje">
-      <b-form-input type="text" v-model="message.content"></b-form-input>
+    <b-modal id="sent-message" hide-footer title="Enviar mensaje">
+      <b-form-input v-model="message.content" type="text"></b-form-input>
       <b-button
         type="submit"
         variant="success"
-        v-on:click="sendMessage()"
         style="margin-top: 2%"
-      >Enviar</b-button>
+        @click="sendMessage()"
+        >Enviar</b-button
+      >
     </b-modal>
   </b-container>
 </template>
@@ -307,7 +316,7 @@ export default {
 
 .animal-card
   height: 430px
-  
+
   img, .card-img
     height: 300px
     object-fit: cover

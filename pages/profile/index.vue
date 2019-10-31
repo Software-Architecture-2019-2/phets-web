@@ -53,13 +53,17 @@
 
         <b-row>
           <b-col>
-            <b-button to="/profile/edit" variant="primary">Editar perfil</b-button>
+            <b-button to="/profile/edit" variant="primary"
+              >Editar perfil</b-button
+            >
           </b-col>
           <b-col>
-            <b-button to="/animal/create" variant="primary">Agregar Mascota</b-button>
+            <b-button to="/animal/create" variant="primary"
+              >Agregar Mascota</b-button
+            >
           </b-col>
           <b-col>
-          <b-link variant="link" @click="print()">print</b-link>
+            <b-link variant="link" @click="print()">print</b-link>
           </b-col>
         </b-row>
       </div>
@@ -83,10 +87,10 @@ export default {
     this.$store.dispatch(ACTIONS.ANIMAL_OWN)
   },
   methods: {
-    print(){
+    print() {
       console.log(this.own)
       console.log(this.model)
-    }
+    },
   },
 }
 </script>

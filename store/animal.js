@@ -84,9 +84,7 @@ export const actions = {
     const gql = {
       type: 'query',
       name: 'allPhets',
-      params: [
-        { name: 'filter', value: filter, type: 'PhetsFilter!' },
-      ],
+      params: [{ name: 'filter', value: filter, type: 'PhetsFilter!' }],
       fields,
     }
     const animalList = await GraphQLUtil.request(this.$axios, gql)
@@ -166,6 +164,8 @@ export const actions = {
     const animalList = await GraphQLUtil.request(this.$axios, gql)
     if (animalList) {
       commit('setOwn', animalList)
+      console.error('OWN: ')
+      console.error(animalList)
     } else {
       console.error('Not able to load own animals')
     }

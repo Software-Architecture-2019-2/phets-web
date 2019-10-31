@@ -3,55 +3,73 @@
     <b-tabs class="tabs-chat" pills card vertical nav-wrapper-class="w-25">
       <b-tab title="Chat Adopcion" disabled></b-tab>
       <b-tab
-        @click="getChannel(user.id.toString())"
         v-for="(user, i) in users"
         :key="i"
         :title="user.name"
         class="chat-container"
+        @click="getChannel(user.id.toString())"
       >
         <b-card-title>{{ user.name }}</b-card-title>
         <hr />
-        <div class="chat-messages" id="scroll">
+        <div id="scroll" class="chat-messages">
           <b-card-text
             v-for="(msg, i) in messages"
             :key="i"
-            v-bind:style="[ msg.sent == user.id ? {'text-align': 'left' } : {'text-align': 'right'} ]"
-          >{{ msg.message }}</b-card-text>
+            :style="[
+              msg.sent == user.id
+                ? { 'text-align': 'left' }
+                : { 'text-align': 'right' },
+            ]"
+            >{{ msg.message }}</b-card-text
+          >
         </div>
         <hr />
         <b-input-group>
-          <b-form-input type="text" v-model="message.content"></b-form-input>
+          <b-form-input v-model="message.content" type="text"></b-form-input>
           <b-input-group-append class="sent-button">
             <b-button
               variant="outline-secondary"
               type="submit"
-              v-on:click="sendMessage(user.id)"
-            >Enviar</b-button>
+              @click="sendMessage(user.id)"
+              >Enviar</b-button
+            >
           </b-input-group-append>
         </b-input-group>
       </b-tab>
       <b-tab title="Chat Phets" disabled></b-tab>
       <b-tab
-        @click="getChannel(pet.received, pet.sent)"
         v-for="(pet, i) in phetsList"
         :key="`${i}-${pet.sent}`"
         :title="`${pet.receivedInfo.name} - ${pet.sentInfo.name}`"
         class="chat-container"
+        @click="getChannel(pet.received, pet.sent)"
       >
-        <b-card-title>{{ pet.receivedInfo.name}} - {{ pet.sentInfo.name }}</b-card-title>
+        <b-card-title
+          >{{ pet.receivedInfo.name }} - {{ pet.sentInfo.name }}</b-card-title
+        >
         <hr />
-        <div class="chat-messages" id="scroll">
+        <div id="scroll" class="chat-messages">
           <b-card-text
             v-for="(msg, i) in messages"
             :key="i"
-            v-bind:style="[ msg.sent == pet.sent ? {'text-align': 'right' } : {'text-align': 'left'} ]"
-          >{{ msg.message }}</b-card-text>
+            :style="[
+              msg.sent == pet.sent
+                ? { 'text-align': 'right' }
+                : { 'text-align': 'left' },
+            ]"
+            >{{ msg.message }}</b-card-text
+          >
         </div>
         <hr />
         <b-input-group>
-          <b-form-input type="text" v-model="message.content"></b-form-input>
+          <b-form-input v-model="message.content" type="text"></b-form-input>
           <b-input-group-append class="sent-button">
-            <b-button variant="outline-secondary" type="submit" v-on:click="sendMessage(pet.received,pet.sent)">Enviar</b-button>
+            <b-button
+              variant="outline-secondary"
+              type="submit"
+              @click="sendMessage(pet.received, pet.sent)"
+              >Enviar</b-button
+            >
           </b-input-group-append>
         </b-input-group>
       </b-tab>
@@ -79,9 +97,9 @@ export default {
         if (res.docChanges()) {
           this.users = []
         }
-        res.docs.forEach( async(doc) => {
-          await this.$store.dispatch(ACTIONS.ANIMAL_GET, (doc.id)).then((res)=>{
-            this.users.push( res )
+        res.docs.forEach(async (doc) => {
+          await this.$store.dispatch(ACTIONS.ANIMAL_GET, doc.id).then((res) => {
+            this.users.push(res)
           })
           this.getChannel(this.users[0].id.toString())
         })
@@ -90,18 +108,22 @@ export default {
     if (this.ownPets) {
       this.ownPets.forEach((pet) => {
         this.$store.dispatch(ACTIONS.PHETS_GET, pet.id).then((matchs) => {
-          matchs.forEach( async(match) => {
+          matchs.forEach(async (match) => {
             if (match.match1 && match.match2) {
               const petInfo = {
                 sent: match.idMain.toString(),
                 received: match.idSecondary.toString(),
               }
-              await this.$store.dispatch(ACTIONS.ANIMAL_GET, match.idMain).then((res)=>{
-                petInfo.sentInfo = res
-              })
-              await this.$store.dispatch(ACTIONS.ANIMAL_GET, match.idSecondary).then((res)=>{
-                petInfo.receivedInfo = res
-              })
+              await this.$store
+                .dispatch(ACTIONS.ANIMAL_GET, match.idMain)
+                .then((res) => {
+                  petInfo.sentInfo = res
+                })
+              await this.$store
+                .dispatch(ACTIONS.ANIMAL_GET, match.idSecondary)
+                .then((res) => {
+                  petInfo.receivedInfo = res
+                })
               this.phetsList.push(petInfo)
             }
           })
@@ -185,7 +207,7 @@ export default {
     async sendMessage(received, sent) {
       this.message.received = received
       this.message.sent = this.username
-      if ( sent ) {
+      if (sent) {
         this.message.sent = sent
       }
       await this.$store

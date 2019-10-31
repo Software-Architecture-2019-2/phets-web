@@ -20,14 +20,8 @@ export const actions = {
       console.error('Not able to interact')
     }
   },
-  async getMatchHistory({ commit }, id ) {
-    const fields = [     
-      'id',
-      'idMain',
-      'idSecondary',
-      'match1',
-      'match2'
-    ]
+  async getMatchHistory({ commit }, id) {
+    const fields = ['id', 'idMain', 'idSecondary', 'match1', 'match2']
     const gql = {
       type: 'query',
       name: 'matchHistory',
