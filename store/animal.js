@@ -164,8 +164,6 @@ export const actions = {
     const animalList = await GraphQLUtil.request(this.$axios, gql)
     if (animalList) {
       commit('setOwn', animalList)
-      console.error('OWN: ')
-      console.error(animalList)
     } else {
       console.error('Not able to load own animals')
     }

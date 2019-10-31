@@ -2,7 +2,7 @@
   <div class="container">
     <div class="text-left">
       <h1>Editar Perfil</h1>
-      <div>
+      <b-form @submit.prevent="editProfile">
         <b-card
           title="Descripcion:"
           img-src="https://picsum.photos/600/300/?image=25"
@@ -11,61 +11,39 @@
           tag="article"
           class="mb-2"
         >
-          <b-form-textarea style="solid ">{{
-            model.description
-          }}</b-form-textarea>
+
+          <b-form-group label="Descripcion" label-class="font-weight-bold">
+            <b-form-textarea style="solid " placeholder="ej: Amo los animales! ~(^-^)~" v-model="model.description"/>
+          </b-form-group>
+
+          <b-form-group label="Nombre" label-class="font-weight-bold">
+            <b-input v-model="model.firstName"/>
+          </b-form-group>
+
+          <b-form-group label="Apellido" label-class="font-weight-bold">
+            <b-input v-model="model.lastName"/>
+          </b-form-group>
+
+          <b-form-group label="Nombre de usuario" label-class="font-weight-bold">
+            <b-input v-model="model.username"/>
+          </b-form-group>
+
+          <b-form-group label="Correo" label-class="font-weight-bold">
+            <b-input v-model="model.email"/>
+          </b-form-group>
 
           <b-row>
-            <b-col sm="2">
-              <label for="nombre-input">Nombre:</label>
+            <b-col>
+              <b-button size="sm" type="submit" variant="outline-primary">
+                Guardar Cambios</b-button>
             </b-col>
-            <b-col sm="10">
-              <b-form-input
-                id="nombre-input"
-                v-model="model.firstName"
-              ></b-form-input>
-            </b-col>
-          </b-row>
-
-          <b-row>
-            <b-col sm="2">
-              <label for="apellido-input">Apellido:</label>
-            </b-col>
-            <b-col sm="10">
-              <b-form-input
-                id="apellido-input"
-                v-model="model.lastName"
-              ></b-form-input>
+            <b-col>
+              <b-button size="sm" to="/profile" variant="outline-primary">
+                cancelar</b-button>
             </b-col>
           </b-row>
-
-          <b-row>
-            <b-col sm="2">
-              <label for="usuario-input">Nombre de usuario:</label>
-            </b-col>
-            <b-col sm="10">
-              <b-form-input
-                id="usuario-input"
-                v-model="model.username"
-              ></b-form-input>
-            </b-col>
-          </b-row>
-
-          <b-row>
-            <b-col sm="2">
-              <label for="correo-input">Correo:</label>
-            </b-col>
-            <b-col sm="10">
-              <b-form-input
-                id="correo-input"
-                v-model="model.email"
-              ></b-form-input>
-            </b-col>
-          </b-row>
-
-          <b-link variant="primary" @click="edit()">Guardar</b-link>
         </b-card>
-      </div>
+      </b-form>
     </div>
   </div>
 </template>
@@ -75,18 +53,32 @@ import { mapState } from 'vuex'
 import { ACTIONS } from '~/constants/VuexConstants'
 
 export default {
+  data() {
+    return {
+      model: {
+        id: this.user.id,
+        firstName: this.user.firstName,
+        lastName: this.user.lastName,
+        username: this.user.username,
+        email: this.user.email,
+        description: this.user.description,
+        media: [],
+      },
+    }
+  },
   computed: {
     ...mapState({
-      model: (state) => state.user.current,
+      user: (state) => state.user.current,
     }),
   },
   created() {
     this.$store.dispatch(ACTIONS.USER_GET_PROFILE)
   },
   methods: {
-    edit() {
+    editProfile() {
+      console.log(this.model)
       this.$store.dispatch(ACTIONS.USER_EDIT, this.model)
-      this.$router.push({ path: 'profile' })
+      this.$router.push({ path: '/profile' })
     },
   },
 }

@@ -45,11 +45,11 @@
           label-class="font-weight-bold"
         >
           <b-row>
-            Día:
+            <b>Día:</b>
             <b-form-input id="day-input" v-model="this.day"></b-form-input>
-            Mes:
+            <b>Mes:</b>
             <b-form-input id="month-input" v-model="this.month"></b-form-input>
-            Año:
+            <b>Año:</b>
             <b-form-input id="year-input" v-model="this.year"></b-form-input>
           </b-row>
         </b-form-group>
@@ -58,6 +58,11 @@
           <b-col>
             <b-button size="sm" type="submit" variant="outline-primary">
               Guardar Mascota</b-button
+            >
+          </b-col>
+          <b-col>
+            <b-button size="sm" to="/animal/home" variant="outline-primary">
+              cancelar</b-button
             >
           </b-col>
         </b-row>

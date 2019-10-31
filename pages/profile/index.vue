@@ -62,9 +62,6 @@
               >Agregar Mascota</b-button
             >
           </b-col>
-          <b-col>
-            <b-link variant="link" @click="print()">print</b-link>
-          </b-col>
         </b-row>
       </div>
     </div>
