@@ -1,17 +1,17 @@
 import GraphQLUtil from '~/util/GraphQL'
 
 export const state = () => ({
-  UserNotif: [],
+  list: [],
 })
 
 export const mutations = {
-  setUserNotif(state, UserNotif) {
-    state.UserNotif = UserNotif
+  setNotifications(state, notifications) {
+    state.notifications = notifications
   },
 }
 
 export const actions = {
-  async userNotifications({ commit }) {
+  async getList({ commit }) {
     const fields = [
       'id',
       'notification_body',
@@ -24,9 +24,9 @@ export const actions = {
       params: [{ name: 'id', value: 1, type: 'Int!' }],
       fields,
     }
-    const UserNotif = await GraphQLUtil.request(this.$axios, gql)
-    if (UserNotif) {
-      commit('setUserNotif', UserNotif)
+    const notifications = await GraphQLUtil.request(this.$axios, gql)
+    if (notifications) {
+      commit('setNotifications', notifications)
     } else {
       console.error('Not able to load notifications')
     }

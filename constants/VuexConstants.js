@@ -28,7 +28,7 @@ export const ACTIONS = {
   EVENT_DELETE: 'event/delete',
   EVENT_RESET: 'event/reset',
 
-  NOTIF_GETBYUSER: 'notifications/userNotifications',
+  NOTIF_LIST: 'notifications/getList',
 
   PHETS_PHET: 'interaction/phet',
 
