@@ -316,7 +316,7 @@ export default {
 
 .animal-card
   height: 430px
-
+  
   img, .card-img
     height: 300px
     object-fit: cover

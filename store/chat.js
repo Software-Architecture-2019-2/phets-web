@@ -2,11 +2,12 @@ import GraphQLUtil from '~/util/GraphQL'
 
 export const state = () => ({
   sentSuccess: false,
+  active: undefined,
 })
 
 export const mutations = {
-  set(state, success) {
-    state.sentSuccess = success
+  setActive(state, active) {
+    state.active = active
   },
 }
 
@@ -27,4 +28,7 @@ export const actions = {
       console.error('Message error')
     }
   },
+  setActive({ commit }, active) {
+    commit('setActive', active)
+  }
 }
