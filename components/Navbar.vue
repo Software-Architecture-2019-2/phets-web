@@ -12,6 +12,11 @@
           <font-awesome-icon :icon="['fas', 'comment-alt']" />
           Chats
         </b-nav-item>
+        <b-nav-item to="/chat">Chat</b-nav-item>
+        <b-nav-item to="/events">Eventos</b-nav-item>
+        <b-nav-item>
+          <font-awesome-icon :icon="['fas', 'bell']" />
+        </b-nav-item>
         <b-nav-item to="/events">Eventos</b-nav-item>
 
         <b-nav-item-dropdown right>

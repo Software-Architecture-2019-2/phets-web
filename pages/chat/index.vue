@@ -1,33 +1,57 @@
 <template>
-  <b-card class="card" no-body>
-    <b-tabs class="tabs" pills card vertical nav-wrapper-class="w-25">
-      <b-tab title="Andrew" class="chat" @click="getChannel">
-        <b-card-title>Andrew</b-card-title>
+  <b-card class="card-chat" no-body>
+    <b-tabs class="tabs-chat" pills card vertical nav-wrapper-class="w-25">
+      <b-tab title="Chat Adopcion" disabled></b-tab>
+      <b-tab
+        @click="getChannel(user.id.toString())"
+        v-for="(user, i) in users"
+        :key="i"
+        :title="user.name"
+        class="chat-container"
+      >
+        <b-card-title>{{ user.name }}</b-card-title>
         <hr />
-        <div class="messages">
+        <div class="chat-messages" id="scroll">
           <b-card-text
             v-for="(msg, i) in messages"
             :key="i"
-            v-b-tooltip.hover
-            :style="[
-              msg.sentEmail == message.sent
-                ? { 'text-align': 'right' }
-                : { 'text-align': 'left' },
-            ]"
-            :title="[msg.sentEmail == message.sent ? 'Enviado' : 'Recibido']"
-            >{{ msg.message }}</b-card-text
-          >
+            v-bind:style="[ msg.sent == user.id ? {'text-align': 'left' } : {'text-align': 'right'} ]"
+          >{{ msg.message }}</b-card-text>
         </div>
         <hr />
         <b-input-group>
-          <b-form-input v-model="message.content" type="text"></b-form-input>
-          <b-input-group-append>
+          <b-form-input type="text" v-model="message.content"></b-form-input>
+          <b-input-group-append class="sent-button">
             <b-button
               variant="outline-secondary"
               type="submit"
-              @click="sendMessage()"
-              >Enviar</b-button
-            >
+              v-on:click="sendMessage(user.id)"
+            >Enviar</b-button>
+          </b-input-group-append>
+        </b-input-group>
+      </b-tab>
+      <b-tab title="Chat Phets" disabled></b-tab>
+      <b-tab
+        @click="getChannel(pet.received, pet.sent)"
+        v-for="(pet, i) in phetsList"
+        :key="`${i}-${pet.sent}`"
+        :title="`${pet.receivedInfo.name} - ${pet.sentInfo.name}`"
+        class="chat-container"
+      >
+        <b-card-title>{{ pet.receivedInfo.name}} - {{ pet.sentInfo.name }}</b-card-title>
+        <hr />
+        <div class="chat-messages" id="scroll">
+          <b-card-text
+            v-for="(msg, i) in messages"
+            :key="i"
+            v-bind:style="[ msg.sent == pet.sent ? {'text-align': 'right' } : {'text-align': 'left'} ]"
+          >{{ msg.message }}</b-card-text>
+        </div>
+        <hr />
+        <b-input-group>
+          <b-form-input type="text" v-model="message.content"></b-form-input>
+          <b-input-group-append class="sent-button">
+            <b-button variant="outline-secondary" type="submit" v-on:click="sendMessage(pet.received,pet.sent)">Enviar</b-button>
           </b-input-group-append>
         </b-input-group>
       </b-tab>
@@ -36,15 +60,60 @@
 </template>
 
 <script>
-import { ACTIONS } from '~/constants/VuexConstants'
-import { fireDb } from '~/plugins/firebase'
+import { mapState } from 'vuex'
+import { ACTIONS } from '../../constants/VuexConstants'
+import { fireDb } from '~/plugins/firebase.js'
 
 export default {
-  props: {
-    messages: {
-      type: Array,
-      default: () => [],
-    },
+  async created() {
+    await this.$store.dispatch(ACTIONS.ANIMAL_OWN, this.username)
+    this.users = []
+    this.phetsList = []
+    const query = fireDb
+      .collection('adoptChatList')
+      .doc(this.username)
+      .collection('users')
+
+    query.get().then((doc) => {
+      query.onSnapshot((res) => {
+        if (res.docChanges()) {
+          this.users = []
+        }
+        res.docs.forEach( async(doc) => {
+          await this.$store.dispatch(ACTIONS.ANIMAL_GET, (doc.id)).then((res)=>{
+            this.users.push( res )
+          })
+          this.getChannel(this.users[0].id.toString())
+        })
+      })
+    })
+    if (this.ownPets) {
+      this.ownPets.forEach((pet) => {
+        this.$store.dispatch(ACTIONS.PHETS_GET, pet.id).then((matchs) => {
+          matchs.forEach( async(match) => {
+            if (match.match1 && match.match2) {
+              const petInfo = {
+                sent: match.idMain.toString(),
+                received: match.idSecondary.toString(),
+              }
+              await this.$store.dispatch(ACTIONS.ANIMAL_GET, match.idMain).then((res)=>{
+                petInfo.sentInfo = res
+              })
+              await this.$store.dispatch(ACTIONS.ANIMAL_GET, match.idSecondary).then((res)=>{
+                petInfo.receivedInfo = res
+              })
+              this.phetsList.push(petInfo)
+            }
+          })
+        })
+      })
+    }
+  },
+  computed: {
+    ...mapState({
+      username: (state) => state.auth.session.username,
+      ownPets: (state) => state.animal.own,
+    }),
   },
   data() {
     return {
@@ -52,80 +121,99 @@ export default {
       required: true,
       message: {
         content: null,
-        sent: 'brandonavilan@gmail.com',
-        received: 'andreavilan@gmail.com',
+        sent: null,
+        received: null,
+        adopt: false,
       },
+      messages: [],
+      users: [],
+      phetsList: [],
     }
   },
   methods: {
-    async getChannel() {
-      const received = 'brandonavilan@gmail.com'
-      const sent = 'andreavilan@gmail.com'
-      this.messages = []
-      const query1 = fireDb
-        .collection('channels')
-        .doc(received)
-        .collection(sent)
-        .orderBy('time', 'asc')
-      const query2 = fireDb
-        .collection('channels')
-        .doc(sent)
-        .collection(received)
-      try {
-        await query1.get().then((docSnapshot) => {
-          if (docSnapshot.docs.length > 0) {
-            query1.onSnapshot((res) => {
-              if (res.docChanges()) {
-                this.messages = []
-                res.docChanges((msm) => {
-                  this.messages.push(msm.data())
-                })
-              }
-              res.docs.forEach((doc) => {
-                this.messages.push(doc.data())
-              })
-              console.log(this.messages)
-            })
-          } else {
-            query2.onSnapshot((res) => {
-              if (res.docChanges()) {
-                this.messages = []
-                res.docChanges((msm) => {
-                  this.messages.push(msm.data())
-                })
-              }
-              res.docs.forEach((doc) => {
-                this.messages.push(doc.data())
-              })
-            })
-          }
-        })
-      } catch (e) {
-        console.error(e)
+    async getChannel(received, pet) {
+      let sent = this.username
+      if (pet) {
+        sent = pet
       }
-      this.getMessages = true
+      this.messages = []
+      if (received && sent) {
+        const query1 = fireDb
+          .collection('channels')
+          .doc(received)
+          .collection(sent)
+          .orderBy('time', 'asc')
+        const query2 = fireDb
+          .collection('channels')
+          .doc(sent)
+          .collection(received)
+          .orderBy('time', 'asc')
+        try {
+          await query1.get().then((docSnapshot) => {
+            if (docSnapshot.docs.length > 0) {
+              query1.onSnapshot((res) => {
+                if (res.docChanges()) {
+                  this.messages = []
+                  res.docChanges((msm) => {
+                    this.messages.push(msm.data())
+                  })
+                }
+                res.docs.forEach((doc) => {
+                  this.messages.push(doc.data())
+                })
+              })
+            } else {
+              query2.onSnapshot((res) => {
+                if (res.docChanges()) {
+                  this.messages = []
+                  res.docChanges((msm) => {
+                    this.messages.push(msm.data())
+                  })
+                }
+                res.docs.forEach((doc) => {
+                  this.messages.push(doc.data())
+                })
+              })
+            }
+          })
+        } catch (e) {
+          console.error(e)
+        }
+        this.getMessages = true
+      }
     },
-    sendMessage() {
-      this.$store.dispatch(ACTIONS.MESSAGE_SENT, this.message)
-      // this.message.content = ''
+    async sendMessage(received, sent) {
+      this.message.received = received
+      this.message.sent = this.username
+      if ( sent ) {
+        this.message.sent = sent
+      }
+      await this.$store
+        .dispatch(ACTIONS.MESSAGE_SENT, this.message)
+        .then((res) => {
+          this.message.content = ''
+        })
     },
   },
 }
 </script>
 <style>
-.card {
+.card-chat {
   height: calc(100vh - 56px);
 }
-.tabs {
+.tabs-chat {
   height: 100%;
 }
-.chat {
+.chat-container {
   height: 100%;
 }
-.messages {
+.chat-messages {
   height: 78%;
+  max-height: 480px;
+  overflow-y: auto;
+  padding: 0 20px;
 }
-.sent {
-  text-align: right;
+.sent-button {
+  padding: 0 20px;
 }
 </style>
