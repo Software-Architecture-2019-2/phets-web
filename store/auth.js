@@ -12,13 +12,11 @@ export const mutations = {
 
 export const actions = {
   load({ commit }) {
-    if (process.browser) {
-      if (localStorage.getItem('token') !== undefined) {
-        commit('setSession', {
-          token: localStorage.getItem('token'),
-          username: localStorage.getItem('username'),
-        })
-      }
+    if (process.browser && localStorage.getItem('token')) {
+      commit('setSession', {
+        token: localStorage.getItem('token'),
+        username: localStorage.getItem('username'),
+      })
     }
   },
   async login({ commit }, login) {
