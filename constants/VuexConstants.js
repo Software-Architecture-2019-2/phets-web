@@ -33,5 +33,6 @@ export const ACTIONS = {
   PHETS_PHET: 'interaction/phet',
   PHETS_GET: 'interaction/getMatchHistory',
 
+  CHAT_ACTIVE: 'chat/setActive',
   MESSAGE_SENT: 'chat/sent',
 }

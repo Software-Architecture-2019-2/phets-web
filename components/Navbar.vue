@@ -25,6 +25,7 @@
               v-for="(notification, i) in notifications"
               :key="i"
               :class="{ unread: !notification.notification_state }"
+              @click="toChat(notification)"
             >{{ notification.notification_body }}</b-dropdown-item>
           </template>
           <b-dropdown-item disabled v-else>Por el momento no hay nada acá.</b-dropdown-item>
@@ -67,6 +68,10 @@ export default {
     this.$store.dispatch(ACTIONS.NOTIF_LIST)
   },
   methods: {
+    toChat(notification) {
+      this.$store.dispatch(ACTIONS.CHAT_ACTIVE, `${notification.from}#${notification.to}`)
+      this.$router.push('/chat')
+    },
     logout() {
       this.$store.dispatch(ACTIONS.LOGOUT)
     },

@@ -37,6 +37,7 @@
         :key="`${i}-${pet.sent}`"
         :title="`${pet.receivedInfo.name} - ${pet.sentInfo.name}`"
         class="chat-container"
+        :active="activeChat === `${pet.sent}#${pet.received}`"
       >
         <b-card-title>{{ pet.receivedInfo.name}} - {{ pet.sentInfo.name }}</b-card-title>
         <hr />
@@ -61,7 +62,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { ACTIONS } from '../../constants/VuexConstants'
+import { ACTIONS } from '~/constants/VuexConstants'
 import { fireDb } from '~/plugins/firebase.js'
 
 export default {
@@ -113,6 +114,7 @@ export default {
     ...mapState({
       username: (state) => state.auth.session.username,
       ownPets: (state) => state.animal.own,
+      activeChat: (state) => state.chat.active,
     }),
   },
   data() {
