@@ -55,6 +55,7 @@ export const actions = {
     const user = await GraphQLUtil.request(this.$axios, gql)
     if (user) {
       commit('setCurrent', user)
+      return user
     } else {
       console.error('Not able to load user')
     }

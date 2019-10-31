@@ -1,7 +1,8 @@
 <template>
   <b-card class="card-chat" no-body>
     <b-tabs class="tabs-chat" pills card vertical nav-wrapper-class="w-25">
-      <b-tab title="Chat Adopcion" disabled></b-tab>
+      <b-tab title="Chat" disabled></b-tab>
+      <b-tab title="Para adoptar" disabled></b-tab>
       <b-tab
         v-for="(user, i) in users"
         :key="i"
@@ -20,23 +21,46 @@
                 ? { 'text-align': 'left' }
                 : { 'text-align': 'right' },
             ]"
-            >{{ msg.message }}</b-card-text
-          >
+          >{{ msg.message }}</b-card-text>
         </div>
         <hr />
         <b-input-group>
           <b-form-input v-model="message.content" type="text"></b-form-input>
           <b-input-group-append class="sent-button">
-            <b-button
-              variant="outline-secondary"
-              type="submit"
-              @click="sendMessage(user.id)"
-              >Enviar</b-button
-            >
+            <b-button variant="outline-secondary" type="submit" @click="sendMessage(user.id)">Enviar</b-button>
           </b-input-group-append>
         </b-input-group>
       </b-tab>
-      <b-tab title="Chat Phets" disabled></b-tab>
+      <b-tab title="Dar adopcion" disabled></b-tab>
+      <b-tab
+        v-for="(user, i) in users2"
+        :key="`${user.sent} - ${i}`"
+        :title="`${user.receivedInfo.firstName} - ${user.sentInfo.name}`"
+        class="chat-container"
+        @click="getChannel(user.received, user.sent)"
+      >
+        <b-card-title>{{ user.receivedInfo.firstName }} - {{ user.sentInfo.name }}</b-card-title>
+        <hr />
+        <div id="scroll" class="chat-messages">
+          <b-card-text
+            v-for="(msg, j) in messages"
+            :key="j"
+            :style="[
+              msg.sent == user.sent
+                ? { 'text-align': 'right' }
+                : { 'text-align': 'left' },
+            ]"
+          >{{ msg.message }}</b-card-text>
+        </div>
+        <hr />
+        <b-input-group>
+          <b-form-input v-model="message.content" type="text"></b-form-input>
+          <b-input-group-append class="sent-button">
+            <b-button variant="outline-secondary" type="submit" @click="sendMessage(user.received,user.sent)">Enviar</b-button>
+          </b-input-group-append>
+        </b-input-group>
+      </b-tab>
+      <b-tab title="Phets" disabled></b-tab>
       <b-tab
         v-for="(pet, i) in phetsList"
         :key="`${i}-${pet.sent}`"
@@ -45,9 +69,7 @@
         :active="activeChat === `${pet.sent}#${pet.received}`"
         @click="getChannel(pet.received, pet.sent)"
       >
-        <b-card-title
-          >{{ pet.receivedInfo.name }} - {{ pet.sentInfo.name }}</b-card-title
-        >
+        <b-card-title>{{ pet.receivedInfo.name }} - {{ pet.sentInfo.name }}</b-card-title>
         <hr />
         <div id="scroll" class="chat-messages">
           <b-card-text
@@ -58,8 +80,7 @@
                 ? { 'text-align': 'right' }
                 : { 'text-align': 'left' },
             ]"
-            >{{ msg.message }}</b-card-text
-          >
+          >{{ msg.message }}</b-card-text>
         </div>
         <hr />
         <b-input-group>
@@ -69,8 +90,7 @@
               variant="outline-secondary"
               type="submit"
               @click="sendMessage(pet.received, pet.sent)"
-              >Enviar</b-button
-            >
+            >Enviar</b-button>
           </b-input-group-append>
         </b-input-group>
       </b-tab>
@@ -96,6 +116,7 @@ export default {
       },
       messages: [],
       users: [],
+      users2: [],
       phetsList: [],
     }
   },
@@ -109,28 +130,61 @@ export default {
   async created() {
     await this.$store.dispatch(ACTIONS.ANIMAL_OWN, this.username)
     this.users = []
+    this.users2 = []
     this.phetsList = []
     const query = fireDb
       .collection('adoptChatList')
       .doc(this.username)
       .collection('users')
 
-    query.get().then((doc) => {
-      query.onSnapshot((res) => {
-        if (res.docChanges()) {
-          this.users = []
-        }
-        res.docs.forEach(async (doc) => {
-          await this.$store.dispatch(ACTIONS.ANIMAL_GET, doc.id).then((res) => {
-            this.users.push(res)
+    query.get().then((users) => {
+      if (users.docs.length > 0) {
+        query.onSnapshot((res) => {
+          if (res.docChanges()) {
+            this.users = []
+          }
+          res.docs.forEach(async (doc) => {
+            await this.$store
+              .dispatch(ACTIONS.ANIMAL_GET, doc.id)
+              .then((res) => {
+                this.users.push(res)
+              })
+            this.getChannel(this.users[0].id.toString())
           })
-          this.getChannel(this.users[0].id.toString())
         })
-      })
+      }
     })
     if (this.ownPets) {
-      this.ownPets.forEach((pet) => {
-        this.$store.dispatch(ACTIONS.PHETS_GET, pet.id).then((matchs) => {
+      this.ownPets.forEach(async (pet) => {
+        const query1 = fireDb
+          .collection('adoptChatList')
+          .doc(pet.id.toString())
+          .collection('users')
+
+        query1.get().then((res) => {
+          if (res.docs.length > 0) {
+            res.docs.forEach(async (doc) => {
+              const user = {
+                sent: pet.id.toString(),
+                received: doc.id.toString(),
+              }
+              await this.$store
+                .dispatch(ACTIONS.ANIMAL_GET, pet.id.toString())
+                .then((res) => {
+                  user.sentInfo = res
+                })
+              await this.$store
+                .dispatch(ACTIONS.USER_GET, doc.id)
+                .then((res) => {
+                  user.receivedInfo = res
+                })
+              this.users2.push(user)
+            })
+            console.log(this.users2);
+          }
+        })
+
+        await this.$store.dispatch(ACTIONS.PHETS_GET, pet.id).then((matchs) => {
           matchs.forEach(async (match) => {
             if (match.match1 && match.match2) {
               const petInfo = {
