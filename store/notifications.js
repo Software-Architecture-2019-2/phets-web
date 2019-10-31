@@ -5,8 +5,8 @@ export const state = () => ({
 })
 
 export const mutations = {
-  setNotifications(state, notifications) {
-    state.notifications = notifications
+  setList(state, notifications) {
+    state.list = notifications
   },
 }
 
@@ -21,12 +21,12 @@ export const actions = {
     const gql = {
       type: 'query',
       name: 'userNotifications',
-      params: [{ name: 'id', value: 1, type: 'Int!' }],
+      params: [{ name: 'username', value: this.state.auth.session.username, type: 'String!' }],
       fields,
     }
     const notifications = await GraphQLUtil.request(this.$axios, gql)
     if (notifications) {
-      commit('setNotifications', notifications)
+      commit('setList', notifications)
     } else {
       console.error('Not able to load notifications')
     }

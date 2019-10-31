@@ -21,8 +21,10 @@
           </template>
           <template v-if="notifications.length">
             <b-dropdown-item
+              class="notification-item"
               v-for="(notification, i) in notifications"
               :key="i"
+              :class="{ unread: !notification.notification_state }"
             >{{ notification.notification_body }}</b-dropdown-item>
           </template>
           <b-dropdown-item disabled v-else>Por el momento no hay nada acá.</b-dropdown-item>
@@ -49,7 +51,15 @@ import { ACTIONS } from '~/constants/VuexConstants'
 export default {
   computed: {
     ...mapState({
-      notifications: (state) => state.notifications.list,
+      notifications: (state) =>
+        state.notifications.list.map((notification) => {
+          const item = { ...notification }
+          const split = item.notification_body.split(';')
+          item.notification_body = split[0]
+          item.from = split[1]
+          item.to = split[2]
+          return item
+        }),
       username: (state) => state.auth.session.username,
     }),
   },
@@ -63,3 +73,14 @@ export default {
   },
 }
 </script>
+
+<style lang="sass">
+.notification-item
+  width: 300px
+  *
+    white-space: normal !important
+
+  &.unread
+    background: #eee
+    border: 0.05px solid #ddd
+</style>
