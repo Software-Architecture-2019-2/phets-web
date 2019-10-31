@@ -28,10 +28,11 @@ export const ACTIONS = {
   EVENT_DELETE: 'event/delete',
   EVENT_RESET: 'event/reset',
 
-  NOTIF_GETBYUSER: 'notifications/userNotifications',
+  NOTIF_LIST: 'notifications/getList',
 
   PHETS_PHET: 'interaction/phet',
   PHETS_GET: 'interaction/getMatchHistory',
 
+  CHAT_ACTIVE: 'chat/setActive',
   MESSAGE_SENT: 'chat/sent',
 }

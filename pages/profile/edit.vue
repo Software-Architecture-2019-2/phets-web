@@ -11,35 +11,43 @@
           tag="article"
           class="mb-2"
         >
-
           <b-form-group label="Descripcion" label-class="font-weight-bold">
-            <b-form-textarea style="solid " placeholder="ej: Amo los animales! ~(^-^)~" v-model="model.description"/>
+            <b-form-textarea
+              v-model="model.description"
+              style="solid "
+              placeholder="ej: Amo los animales! ~(^-^)~"
+            />
           </b-form-group>
 
           <b-form-group label="Nombre" label-class="font-weight-bold">
-            <b-input v-model="model.firstName"/>
+            <b-input v-model="model.firstName" />
           </b-form-group>
 
           <b-form-group label="Apellido" label-class="font-weight-bold">
-            <b-input v-model="model.lastName"/>
+            <b-input v-model="model.lastName" />
           </b-form-group>
 
-          <b-form-group label="Nombre de usuario" label-class="font-weight-bold">
-            <b-input v-model="model.username"/>
+          <b-form-group
+            label="Nombre de usuario"
+            label-class="font-weight-bold"
+          >
+            <b-input v-model="model.username" />
           </b-form-group>
 
           <b-form-group label="Correo" label-class="font-weight-bold">
-            <b-input v-model="model.email"/>
+            <b-input v-model="model.email" />
           </b-form-group>
 
           <b-row>
             <b-col>
               <b-button size="sm" type="submit" variant="outline-primary">
-                Guardar Cambios</b-button>
+                Guardar Cambios</b-button
+              >
             </b-col>
             <b-col>
               <b-button size="sm" to="/profile" variant="outline-primary">
-                cancelar</b-button>
+                cancelar</b-button
+              >
             </b-col>
           </b-row>
         </b-card>

@@ -128,7 +128,8 @@ export default {
       this.animalItem.user = this.currentUser.username
       const date = `${this.year}-${this.month}-${this.day}`
       this.animalItem.birthdate = date
-      this.animalItem.animal_type.value = this.animalTypes[this.animalItem.animal_type.id].value
+      const animalTypeId = this.animalItem.animal_type.id
+      this.animalItem.animal_type.value = this.animalTypes[animalTypeId].value
       this.$store.dispatch(ACTIONS.ANIMAL_CREATE, this.animalItem)
       this.$router.push({ path: '/animal/home' })
     },
