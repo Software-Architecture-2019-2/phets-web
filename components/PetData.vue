@@ -1,30 +1,25 @@
 <template>
   <div class="dataPet">
-    <b-card
-      v-if="animalItem"
-      title="Mascota:"
-      img-src="https://picsum.photos/600/300/?image=25"
-      img-alt="Image"
-      img-top
-      style="max-width: 30rem;"
-      tag="article"
-      class="mb-2"
-    >
-      <b-row>
-        <h2>{{ animalItem.name }}</h2>
-      </b-row>
-      <b-row>
-        <b-col>Raza:</b-col>
-        <b-col>{{ animalItem.breed }}</b-col>
-      </b-row>
-      <b-row>
-        <b-col>Genero:</b-col>
-        <b-col>{{ gender(animalItem.gender) }}</b-col>
-      </b-row>
-      <b-row>
-        <b-col>Fecha de nacimiento:</b-col>
-        <b-col>{{ animalItem.birthdate }}</b-col>
-      </b-row>
+    <b-card v-if="animalItem" no-body class="mb-2 animal-card">
+      <file-preview v-if="animalItem.media.length" :id="animalItem.media[0]" />
+
+      <b-card-body>
+        <b-card-title>{{ animalItem.name }}</b-card-title>
+        <b-container>
+          <b-row>
+            <b-col>Raza:</b-col>
+            <b-col>{{ animalItem.breed }}</b-col>
+          </b-row>
+          <b-row>
+            <b-col>Genero:</b-col>
+            <b-col>{{ gender(animalItem.gender) }}</b-col>
+          </b-row>
+          <b-row>
+            <b-col>Fecha de nacimiento:</b-col>
+            <b-col>{{ animalItem.birthdate }}</b-col>
+          </b-row>
+        </b-container>
+      </b-card-body>
     </b-card>
   </div>
 </template>
@@ -32,8 +27,10 @@
 <script>
 import { mapState } from 'vuex'
 import { ACTIONS } from '~/constants/VuexConstants'
+import FilePreview from '~/components/FilePreview'
 
 export default {
+  components: { FilePreview },
   props: {
     idAnimal: {
       type: Number,
@@ -80,20 +77,17 @@ export default {
 }
 </script>
 
-<style>
-@keyframes turn {
-  100% {
-    transform: rotateX(0deg);
-  }
-}
-@keyframes godown {
-  100% {
-    top: 180px;
-  }
-}
-@keyframes goright {
-  100% {
-    left: 70px;
-  }
-}
+<style lang="sass" scoped>
+.animal-card
+  width: 600px
+  height: 430px
+
+</style>
+
+<style lang="sass">
+.animal-card
+  img, .card-img
+    height: 300px
+    object-fit: cover
+    padding: 1px
 </style>

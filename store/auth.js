@@ -68,8 +68,10 @@ export const actions = {
     const res = await GraphQLUtil.request(this.$axios, gql)
     if (res) {
       console.info('Success registration')
+      return true
     } else {
       console.error('Register error')
     }
+    return false
   },
 }

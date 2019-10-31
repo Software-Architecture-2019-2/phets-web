@@ -1,98 +1,94 @@
 <template>
-  <div class="container">
-    <div class="text-left">
-      <h1>Agregar Mascota</h1>
+  <b-container>
+    <h1 class="my-5">Agregar Mascota</h1>
 
-      <b-form @submit.prevent="createPet">
-        <b-form-group label="Nombre" label-class="font-weight-bold">
-          <b-input v-model="animalItem.name" placeholder="ej: Firulais" />
-        </b-form-group>
+    <b-form @submit.prevent="createPet">
+      <b-row>
+        <b-col>
+          <b-form-group label="Nombre" label-class="font-weight-bold">
+            <b-input v-model="animalItem.name" placeholder="ej: Firulais" />
+          </b-form-group>
+        </b-col>
 
-        <b-form-group
-          class="mt-3"
-          label="Tipo de animal"
-          label-class="font-weight-bold"
-        >
-          <b-select
-            v-model="animalItem.animal_type.id"
-            :options="animalTypes"
-          />
-        </b-form-group>
+        <b-col>
+          <b-form-group label="Tipo de animal" label-class="font-weight-bold">
+            <b-select v-model="animalItem.animal_type" :options="animalTypes" />
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <b-form-group label="Raza" label-class="font-weight-bold">
+            <b-input v-model="animalItem.breed" placeholder="ej: Chihuahua" />
+          </b-form-group>
+        </b-col>
+        <b-col>
+          <b-form-group label="Género" label-class="font-weight-bold">
+            <b-form-radio-group v-model="animalItem.gender" :options="genderOptions" />
+          </b-form-group>
+        </b-col>
+      </b-row>
 
-        <b-form-group label="Raza" label-class="font-weight-bold">
-          <b-input v-model="animalItem.breed" placeholder="ej: Chihuahua" />
-        </b-form-group>
+      <b-row>
+        <b-col>
+          <b-form-group label="Fecha de nacimiento" label-class="font-weight-bold">
+            <datepicker v-model="animalItem.birthdate" :max-date="new Date()" />
+          </b-form-group>
+        </b-col>
+        <b-col>
+          <b-form-group label="Subida de imágenes" label-class="font-weight-bold">
+            <b-form-file
+              v-model="file"
+              accept="image/*"
+              browse-text="Buscar"
+              placeholder="Selecciona un archivo o suéltalo acá..."
+              drop-placeholder="Suelta un archivo acá..."
+            />
+          </b-form-group>
+        </b-col>
+      </b-row>
 
-        <b-form-group>
-          <slot name="label">
-            <b-row class="button-height" align-v="center">
-              <b-col class="font-weight-bold">Género</b-col>
-              <b-col v-show="animalItem.gender !== null" cols="auto"> </b-col>
-            </b-row>
-          </slot>
-          <b-row align-h="between">
-            <b-col cols="auto">
-              <b-form-radio-group
-                v-model="animalItem.gender"
-                :options="genderOptions"
-              />
-            </b-col>
-          </b-row>
-        </b-form-group>
+      <b-badge
+        v-for="(name, i) in filenames"
+        :key="i"
+        variant="info"
+        class="mx-1 text-truncate mw-badge"
+      >
+        <font-awesome-icon :icon="['fa', 'times']" @click="files.splice(i, 1)" />
+        {{ name }}
+      </b-badge>
 
-        <b-form-group
-          label="Fecha de nacimiento"
-          label-class="font-weight-bold"
-        >
-          <b-row>
-            <b>Día:</b>
-            <b-form-input id="day-input" v-model="this.day"></b-form-input>
-            <b>Mes:</b>
-            <b-form-input id="month-input" v-model="this.month"></b-form-input>
-            <b>Año:</b>
-            <b-form-input id="year-input" v-model="this.year"></b-form-input>
-          </b-row>
-        </b-form-group>
-
-        <b-row>
-          <b-col>
-            <b-button size="sm" type="submit" variant="outline-primary">
-              Guardar Mascota</b-button
-            >
-          </b-col>
-          <b-col>
-            <b-button size="sm" to="/animal/home" variant="outline-primary">
-              cancelar</b-button
-            >
-          </b-col>
-        </b-row>
-      </b-form>
-    </div>
-  </div>
+      <b-row class="text-center mt-3">
+        <b-col>
+          <b-button size="sm" type="submit" variant="outline-primary">Guardar Mascota</b-button>
+        </b-col>
+        <b-col>
+          <b-button size="sm" to="/animal/home" variant="outline-primary">Cancelar</b-button>
+        </b-col>
+      </b-row>
+    </b-form>
+  </b-container>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import Datepicker from '~/components/Datepicker'
 import { ACTIONS } from '~/constants/VuexConstants'
 
 export default {
+  components: { Datepicker },
   data() {
     return {
-      day: 1,
-      month: 1,
-      year: 2019,
-      idAnimal: this.$route.params.id,
+      file: undefined,
+      files: [],
       animalItem: {
-        name: '',
-        user: '',
-        breed: '',
-        gender: '',
+        name: undefined,
+        user: this.$store.state.auth.session.username,
+        breed: undefined,
+        gender: undefined,
         adoption: false,
-        birthdate: '',
-        animal_type: {
-          id: '',
-          value: '',
-        },
+        birthdate: undefined,
+        animal_type: null,
         media: [],
       },
       genderOptions: [
@@ -103,10 +99,9 @@ export default {
   },
   computed: {
     ...mapState({
-      currentUser: (state) => state.user.current,
       animalTypes: (state) => {
         const animalTypes = state.animal.types.map((type) => ({
-          value: type.id,
+          value: type,
           text: type.value,
         }))
         animalTypes.unshift({
@@ -116,6 +111,14 @@ export default {
         return animalTypes
       },
     }),
+    filenames() {
+      return this.files ? this.files.map((f) => f.name) : undefined
+    },
+  },
+  watch: {
+    file(file) {
+      if (file) this.files.push(file)
+    },
   },
   beforeCreate() {
     this.$store.dispatch(ACTIONS.ANIMAL_TYPES)
@@ -124,14 +127,16 @@ export default {
     this.$store.dispatch(ACTIONS.USER_GET_PROFILE)
   },
   methods: {
-    createPet() {
-      this.animalItem.user = this.currentUser.username
-      const date = `${this.year}-${this.month}-${this.day}`
-      this.animalItem.birthdate = date
-      const animalTypeId = this.animalItem.animal_type.id
-      this.animalItem.animal_type.value = this.animalTypes[animalTypeId].value
-      this.$store.dispatch(ACTIONS.ANIMAL_CREATE, this.animalItem)
-      this.$router.push({ path: '/animal/home' })
+    async createPet() {
+      for (const file of this.files) {
+        const id = await this.$store.dispatch(ACTIONS.UPLOAD_FILE, file)
+        this.animalItem.media.push(id)
+      }
+      const saved = await this.$store.dispatch(
+        ACTIONS.ANIMAL_CREATE,
+        this.animalItem
+      )
+      if (saved) this.$router.push('/animal/home')
     },
     gender(gender) {
       return gender ? 'Femenino' : 'Masculino'
@@ -140,32 +145,8 @@ export default {
 }
 </script>
 
-<style scoped>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-.links {
-  padding-top: 15px;
-}
+<style lang="sass" scoped>
+.mw-badge
+  max-width: 200px
 </style>
+

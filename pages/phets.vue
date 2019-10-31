@@ -42,6 +42,12 @@
       <p v-else>No hay animales para phet.</p>
     </template>
     <p v-else>No has registrado animales aún.</p>
+
+    <b-modal ref="match" hide-footer title="¡Es un match!">
+      Felicidades {{ selected.name }}, también le has gustado a esta mascota.
+      <b-button variant="success" @click="goToChat">Ir al chat</b-button>
+      <b-button variant="warning" @click="hideModal">Seguir acá</b-button>
+    </b-modal>
   </b-container>
 </template>
 
@@ -60,6 +66,7 @@ export default {
         animal_type: {},
       },
       animals: [],
+      goToChat: () => {},
     }
   },
   computed: {
@@ -98,8 +105,18 @@ export default {
         like: value,
       })
       if (interaction && interaction.match1 && interaction.match2) {
-        console.log('Match!')
+        this.goToChat = () => {
+          this.$store.dispatch(
+            ACTIONS.CHAT_ACTIVE,
+            `${this.selected.id}#${animal.id}`
+          )
+          this.$router.push('/chat')
+        }
+        this.$refs.match.show()
       }
+    },
+    hideModal() {
+      this.$refs.match.hide()
     },
     gender(gender) {
       return gender ? 'Femenino' : 'Masculino'

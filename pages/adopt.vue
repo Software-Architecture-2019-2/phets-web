@@ -308,7 +308,7 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 .send-message-btn
   margin-top: 10px
 .button-height
@@ -316,7 +316,10 @@ export default {
 
 .animal-card
   height: 430px
+</style>
 
+<style lang="sass">
+.animal-card
   img, .card-img
     height: 300px
     object-fit: cover

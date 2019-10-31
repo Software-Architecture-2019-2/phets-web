@@ -213,11 +213,11 @@ export const actions = {
     }
     const savedAnimal = await GraphQLUtil.request(this.$axios, gql)
     if (savedAnimal) {
-      console.info('Pet succesfully saved')
-      console.info(savedAnimal)
+      return savedAnimal
     } else {
       console.error('Error saving animal')
     }
+    return false
   },
   async edit({ commit }, animal) {
     const fields = [

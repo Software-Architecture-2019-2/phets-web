@@ -42,7 +42,7 @@
         <b-button type="submit" variant="success">Log In</b-button>
       </b-form>
     </b-modal>
-    <b-modal id="registro" hide-footer title="Registrarse">
+    <b-modal id="registro" ref="register" hide-footer title="Registrarse">
       <b-form class="form" @submit.prevent="create">
         <label class="sr-only" for="inline-form-input-name">Nombre</label>
         <b-input-group prepend="Nombre" class="mb-2 mr-sm-2 mb-sm-0">
@@ -138,8 +138,10 @@ export default {
     authenticate() {
       this.$store.dispatch(ACTIONS.LOGIN, this.login)
     },
-    create() {
-      this.$store.dispatch(ACTIONS.REGISTER, this.register)
+    async create() {
+      const registered = await this.$store.dispatch(ACTIONS.REGISTER, this.register)
+      if (registered)
+        this.$refs.register.hide()
     },
   },
 }
