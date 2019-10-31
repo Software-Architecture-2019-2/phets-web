@@ -191,6 +191,7 @@ export const actions = {
     const animal = await GraphQLUtil.request(this.$axios, gql)
     if (animal) {
       commit('set', animal)
+      return animal
     } else {
       console.error('Not able to load animal')
     }

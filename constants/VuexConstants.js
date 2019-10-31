@@ -31,6 +31,7 @@ export const ACTIONS = {
   NOTIF_GETBYUSER: 'notifications/userNotifications',
 
   PHETS_PHET: 'interaction/phet',
+  PHETS_GET: 'interaction/getMatchHistory',
 
   MESSAGE_SENT: 'chat/sent',
 }
