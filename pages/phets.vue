@@ -60,21 +60,10 @@ export default {
         animal_type: {},
       },
       animals: [],
-      filter: {
-        animalType: null,
-        gender: null,
-        adoption: false,
-        notUser: this.$store.state.auth.session.username,
-      },
-      paginate: {
-        perPage: 5,
-        page: 1,
-      },
     }
   },
   computed: {
     ...mapState({
-      animalPage: (state) => state.animal.page,
       ownPets: (state) =>
         state.animal.own
           .filter((animal) => !animal.adoption)
@@ -86,25 +75,20 @@ export default {
   },
   watch: {
     selected(animal) {
-      this.filter.animalType = animal.animal_type.id
-      this.filter.gender = !animal.gender
       this.search()
-    },
-    animalPage(page) {
-      this.animals.push(...page.data)
     },
   },
   async created() {
     await this.$store.dispatch(ACTIONS.ANIMAL_OWN)
     if (this.ownPets.length) {
       this.selected = this.ownPets[0].value
+      this.search()
     }
   },
   methods: {
-    search() {
-      const pager = { ...this.paginate }
-      pager.page--
-      this.$store.dispatch(ACTIONS.ANIMAL_PAGE, { pager, filter: this.filter })
+    async search() {
+      await this.$store.dispatch(ACTIONS.ANIMAL_PHETS, this.selected.id)
+      this.animals = [...this.$store.state.animal.list]
     },
     async phet(value) {
       const animal = this.animals.shift()
@@ -115,10 +99,6 @@ export default {
       })
       if (interaction && interaction.match1 && interaction.match2) {
         console.log('Match!')
-        if (this.animals.length <= 1) {
-          this.paginate.page++
-          this.search()
-        }
       }
     },
     gender(gender) {

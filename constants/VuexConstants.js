@@ -9,6 +9,7 @@ export const ACTIONS = {
 
   ANIMAL_TYPES: 'animal/getTypes',
   ANIMAL_LIST: 'animal/getList',
+  ANIMAL_PHETS: 'animal/getPhets',
   ANIMAL_PAGE: 'animal/getFilteredPage',
   ANIMAL_OWN: 'animal/getOwn',
   ANIMAL_CREATE: 'animal/create',
