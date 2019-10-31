@@ -2,48 +2,68 @@
   <div class="container">
     <div class="text-left">
       <h1>Agregar Mascota</h1>
-      <b-card
-        title="Editar Mascota:"
-        img-src="https://picsum.photos/600/300/?image=25"
-        img-alt="Image"
-        img-top
-        style="max-width: 30rem;"
-        tag="article"
-        class="mb-2"
-      >
+
+      <b-form @submit.prevent="createPet">
+        
+        <b-form-group label="Nombre" label-class="font-weight-bold">
+          <b-input v-model="animalItem.name" placeholder="ej: Firulais" />
+        </b-form-group>
+
+        <b-form-group
+          class="mt-3"
+          label="Tipo de animal"
+          label-class="font-weight-bold"
+        >
+          <b-select v-model="animalItem.animal_type" :options="animalTypes" />
+        </b-form-group>
+
+        <b-form-group label="Raza" label-class="font-weight-bold">
+          <b-input v-model="animalItem.breed" placeholder="ej: Chihuahua" />
+        </b-form-group>
+
+        <b-form-group>
+          <slot name="label">
+            <b-row class="button-height" align-v="center">
+              <b-col class="font-weight-bold">Género</b-col>
+              <b-col v-show="animalItem.gender !== null" cols="auto">
+              </b-col>
+            </b-row>
+          </slot>
+          <b-row align-h="between">
+            <b-col cols="auto">
+              <b-form-radio-group
+                v-model="animalItem.gender"
+                :options="genderOptions"
+              />
+            </b-col>
+          </b-row>
+        </b-form-group>
+
+        <b-form-group label="Fecha de nacimiento" label-class="font-weight-bold">
+          <b-row>
+            Mes:
+            <b-form-input
+              id="month-input"
+              v-model="this.month"
+            ></b-form-input>
+            Año:
+            <b-form-input
+              id="year-input"
+              v-model="this.year"
+            ></b-form-input>
+          </b-row>
+        </b-form-group>
+
         <b-row>
-          <b-form-input
-            id="name-input"
-            v-model="animalItem.name"
-          ></b-form-input>
+          <b-col>
+            <b-button 
+              size="sm"
+              type="submit"
+              variant="outline-primary">
+              Guardar Mascota</b-button>
+          </b-col>
         </b-row>
-        <b-row>
-          <b-col>Raza:</b-col>
-          <b-form-input
-            id="breed-input"
-            v-model="animalItem.breed"
-          ></b-form-input>
-        </b-row>
-        <b-row>
-          <b-col>Genero:</b-col>
-          <b-form-input
-            id="gender-input"
-            v-model="animalItem.gender"
-          ></b-form-input>
-        </b-row>
-        <b-row>
-          <b-col>Fecha de nacimiento:</b-col>
-          <b-form-input
-            id="birthdate-input"
-            v-model="animalItem.birthdate"
-          ></b-form-input>
-        </b-row>
-      </b-card>
-      <b-row>
-        <b-col>
-          <b-button>Guardar Mascota</b-button>
-        </b-col>
-      </b-row>
+      </b-form>
     </div>
   </div>
 </template>
@@ -55,14 +75,17 @@ import { ACTIONS } from '~/constants/VuexConstants'
 export default {
   data() {
     return {
+      month: 1,
+      year: 2019,
       idAnimal: this.$route.params.id,
       animalItem: {
         name: '',
+        user: '',
         breed: '',
         gender: '',
         adoption: false,
-        birthdate: '',
-        user: this.username,
+        birthdate:  new Date(),
+        animal_type: ['id', 'value'],
       },
       genderOptions: [
         { text: 'Masculino', value: false },
@@ -72,27 +95,39 @@ export default {
   },
   computed: {
     ...mapState({
-      username: (state) => state.auth.session.username,
+      currentUser: (state) => state.user.current,
+      animalTypes: (state) => {
+        const animalTypes = state.animal.types.map((type) => ({
+          value: type.id,
+          text: type.value,
+        }))
+        animalTypes.unshift({
+          value: null,
+          text: 'Selecciona un tipo',
+        })
+        return animalTypes
+      },
     }),
   },
+  beforeCreate() {
+    this.$store.dispatch(ACTIONS.ANIMAL_TYPES)
+  },
+  created() {
+    this.$store.dispatch(ACTIONS.USER_GET_PROFILE)
+  },
   methods: {
-    create() {
-      this.$store.dispatch(ACTIONS.ANIMAL_GET, this.animalItem)
+    createPet() {
+      this.animalItem.user = this.currentUser.username
+      console.log(this.animalItem)
+      this.birthday()
+      this.$store.dispatch(ACTIONS.ANIMAL_CREATE, this.animalItem)
+      this.$router.push({ path: '/animal/home' })
     },
-    age(birthdate) {
-      const birthday = new Date(birthdate)
-      const today = new Date()
-      let years = today.getFullYear() - birthday.getFullYear()
-      let months = today.getMonth() - birthday.getMonth()
-      if (today.getMonth() < birthday.getMonth()) {
-        months += 12
-        years--
-      }
-      let str = ' '
-      if (years) str += `${years} años`
-      if (years && months) str += ', '
-      if (months) str += `${months} meses`
-      return '-' + str
+    birthday() {
+      const birthday = new Date()
+      birthday.setMonth = this.month
+      birthday.setFullYear = this.year
+      this.animalItem.birthdate = birthday
     },
     gender(gender) {
       return gender ? 'Femenino' : 'Masculino'

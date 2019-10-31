@@ -8,7 +8,7 @@
       </b-col>
       <b-col class="mb-8">
         <div>
-          <template v-if="own && own.data.length">
+          <template v-if="own && own.length">
             <b-row>
               <b-col
                 v-for="(animal, i) in own.data"

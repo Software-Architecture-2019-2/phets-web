@@ -86,6 +86,7 @@ export default {
   methods: {
     edit() {
       this.$store.dispatch(ACTIONS.USER_EDIT, this.model)
+      this.$router.push({ path: 'profile' })
     },
   },
 }
