@@ -1,51 +1,59 @@
 <template>
   <div class="container">
-    <div>
-      <template v-if="own && own.data.length">
-        <b-row>
-          <b-col
-            v-for="(animal, i) in own.data"
-            :key="i"
-            lg="4"
-            md="6"
-            sm="12"
-            class="mb-4"
-          >
-            <b-card no-body class="animal-card">
-              <file-preview v-if="animal.media.length" :id="animal.media[0]" />
-              <b-card-img
-                v-else
-                :src="
-                  `https://placekitten.com/480/210?image=${Math.floor(
-                    Math.random() * 20
-                  )}`
-                "
-                alt="Image"
-              />
-              <!-- TODO: Change for default image -->
-              <b-card-body>
-                <b-card-title>
-                  <b-link variant="link" @click="toPetProfile(animal.id)">{{
-                    animal.name
-                  }}</b-link>
-                  {{ age(animal.birthdate) }}
-                </b-card-title>
-                <b-card-sub-title>
-                  {{ animal.animal_type.value }}, {{ animal.breed }},
-                  {{ gender(animal.gender) }}
-                </b-card-sub-title>
-              </b-card-body>
-            </b-card>
-          </b-col>
-        </b-row>
-      </template>
-      <b-row v-else>
-        <b-col>
-          En el momento no tiene mascotas registradas / No se han encontrado
-          resultados para la búsqueda
-        </b-col>
-      </b-row>
-    </div>
+    <b-row>
+      <b-col class="mb-4">
+        <b-button to="/animal/create" variant="primary">Agregar Mascota</b-button>
+      </b-col>
+      <b-col class="mb-8">
+        <div>
+          <template v-if="own && own.data.length">
+            <b-row>
+              <b-col
+                v-for="(animal, i) in own.data"
+                :key="i"
+                lg="4"
+                md="6"
+                sm="12"
+                class="mb-4"
+              >
+                <b-card no-body class="animal-card">
+                  <file-preview v-if="animal.media.length" 
+                  :id="animal.media[0]" />
+                  <b-card-img
+                    v-else
+                    :src="
+                      `https://placekitten.com/480/210?image=${Math.floor(
+                        Math.random() * 20
+                      )}`
+                    "
+                    alt="Image"
+                  />
+                  <!-- TODO: Change for default image -->
+                  <b-card-body>
+                    <b-card-title>
+                      <b-link variant="link" @click="toPetProfile(animal.id)">{{
+                        animal.name
+                      }}</b-link>
+                      {{ age(animal.birthdate) }}
+                    </b-card-title>
+                    <b-card-sub-title>
+                      {{ animal.animal_type.value }}, {{ animal.breed }},
+                      {{ gender(animal.gender) }}
+                    </b-card-sub-title>
+                  </b-card-body>
+                </b-card>
+              </b-col>
+            </b-row>
+          </template>
+          <b-row v-else>
+            <b-col>
+              En el momento no tiene mascotas registradas / No se han encontrado
+              resultados para la búsqueda
+            </b-col>
+          </b-row>
+        </div>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
