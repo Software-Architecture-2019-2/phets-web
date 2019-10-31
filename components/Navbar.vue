@@ -21,14 +21,17 @@
           </template>
           <template v-if="notifications.length">
             <b-dropdown-item
-              class="notification-item"
               v-for="(notification, i) in notifications"
               :key="i"
+              class="notification-item"
               :class="{ unread: !notification.notification_state }"
               @click="toChat(notification)"
-            >{{ notification.notification_body }}</b-dropdown-item>
+              >{{ notification.notification_body }}</b-dropdown-item
+            >
           </template>
-          <b-dropdown-item disabled v-else>Por el momento no hay nada acá.</b-dropdown-item>
+          <b-dropdown-item v-else disabled
+            >Por el momento no hay nada acá.</b-dropdown-item
+          >
         </b-nav-item-dropdown>
 
         <b-nav-item-dropdown right>
@@ -69,7 +72,10 @@ export default {
   },
   methods: {
     toChat(notification) {
-      this.$store.dispatch(ACTIONS.CHAT_ACTIVE, `${notification.from}#${notification.to}`)
+      this.$store.dispatch(
+        ACTIONS.CHAT_ACTIVE,
+        `${notification.from}#${notification.to}`
+      )
       this.$router.push('/chat')
     },
     logout() {

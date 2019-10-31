@@ -21,7 +21,13 @@ export const actions = {
     const gql = {
       type: 'query',
       name: 'userNotifications',
-      params: [{ name: 'username', value: this.state.auth.session.username, type: 'String!' }],
+      params: [
+        {
+          name: 'username',
+          value: this.state.auth.session.username,
+          type: 'String!',
+        },
+      ],
       fields,
     }
     const notifications = await GraphQLUtil.request(this.$axios, gql)

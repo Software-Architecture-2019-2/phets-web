@@ -30,5 +30,5 @@ export const actions = {
   },
   setActive({ commit }, active) {
     commit('setActive', active)
-  }
+  },
 }

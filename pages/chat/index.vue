@@ -13,8 +13,8 @@
         <hr />
         <div id="scroll" class="chat-messages">
           <b-card-text
-            v-for="(msg, i) in messages"
-            :key="i"
+            v-for="(msg, j) in messages"
+            :key="j"
             :style="[
               msg.sent == user.id
                 ? { 'text-align': 'left' }
@@ -42,8 +42,8 @@
         :key="`${i}-${pet.sent}`"
         :title="`${pet.receivedInfo.name} - ${pet.sentInfo.name}`"
         class="chat-container"
-        @click="getChannel(pet.received, pet.sent)"
         :active="activeChat === `${pet.sent}#${pet.received}`"
+        @click="getChannel(pet.received, pet.sent)"
       >
         <b-card-title
           >{{ pet.receivedInfo.name }} - {{ pet.sentInfo.name }}</b-card-title
@@ -51,8 +51,8 @@
         <hr />
         <div id="scroll" class="chat-messages">
           <b-card-text
-            v-for="(msg, i) in messages"
-            :key="i"
+            v-for="(msg, j) in messages"
+            :key="j"
             :style="[
               msg.sent == pet.sent
                 ? { 'text-align': 'right' }
@@ -84,6 +84,28 @@ import { ACTIONS } from '~/constants/VuexConstants'
 import { fireDb } from '~/plugins/firebase.js'
 
 export default {
+  data() {
+    return {
+      getMessages: false,
+      required: true,
+      message: {
+        content: null,
+        sent: null,
+        received: null,
+        adopt: false,
+      },
+      messages: [],
+      users: [],
+      phetsList: [],
+    }
+  },
+  computed: {
+    ...mapState({
+      username: (state) => state.auth.session.username,
+      ownPets: (state) => state.animal.own,
+      activeChat: (state) => state.chat.active,
+    }),
+  },
   async created() {
     await this.$store.dispatch(ACTIONS.ANIMAL_OWN, this.username)
     this.users = []
@@ -130,28 +152,6 @@ export default {
           })
         })
       })
-    }
-  },
-  computed: {
-    ...mapState({
-      username: (state) => state.auth.session.username,
-      ownPets: (state) => state.animal.own,
-      activeChat: (state) => state.chat.active,
-    }),
-  },
-  data() {
-    return {
-      getMessages: false,
-      required: true,
-      message: {
-        content: null,
-        sent: null,
-        received: null,
-        adopt: false,
-      },
-      messages: [],
-      users: [],
-      phetsList: [],
     }
   },
   methods: {
