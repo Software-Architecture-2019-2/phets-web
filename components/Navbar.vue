@@ -9,14 +9,18 @@
         <b-nav-item to="/phets">Phets</b-nav-item>
         <b-nav-item to="/adopt">Adoptar</b-nav-item>
         <b-nav-item to="/events">Eventos</b-nav-item>
-        
+
         <b-nav-item-dropdown right>
           <template v-slot:button-content>
             <font-awesome-icon :icon="['fas', 'bell']" />
-            <b>notif</b>
+            <b>notificaciones</b>
           </template>
-          <b-dropdown-item v-for="(notification, i) in UserNotif.data"
-            :key="i" to="/profile">{{notification.notification_body}}</b-dropdown-item>
+          <b-dropdown-item
+            v-for="(notification, i) in UserNotif.data"
+            :key="i"
+            to="/profile"
+            >{{ notification.notification_body }}</b-dropdown-item
+          >
         </b-nav-item-dropdown>
 
         <b-nav-item-dropdown right>
@@ -38,17 +42,6 @@ import { mapState } from 'vuex'
 import { ACTIONS } from '~/constants/VuexConstants'
 
 export default {
-  data() {
-    return {
-      model: {
-        id: null,
-        name: undefined,
-        breed: undefined,
-        gender: undefined,
-        birthdate: undefined,
-      },
-    }
-  },
   computed: {
     ...mapState({
       UserNotif: (state) => state.notifications.UserNotif,

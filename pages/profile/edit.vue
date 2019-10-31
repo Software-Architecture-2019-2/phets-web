@@ -22,7 +22,7 @@
             <b-col sm="10">
               <b-form-input
                 id="nombre-input"
-                v-model="model.name"
+                v-model="model.firstName"
               ></b-form-input>
             </b-col>
           </b-row>
@@ -63,7 +63,7 @@
             </b-col>
           </b-row>
 
-          <b-button href="~/edit" variant="primary">Guardar</b-button>
+          <b-link variant="primary" @click="edit()">Guardar</b-link>
         </b-card>
       </div>
     </div>
@@ -75,25 +75,13 @@ import { mapState } from 'vuex'
 import { ACTIONS } from '~/constants/VuexConstants'
 
 export default {
-  data() {
-    return {
-      model: {
-        id: null,
-        name: undefined,
-        lastName: undefined,
-        username: undefined,
-        email: undefined,
-        description: undefined,
-      },
-    }
-  },
   computed: {
-    profile() {
-      return this.$store.state.todos
-    },
     ...mapState({
       model: (state) => state.user.current,
     }),
+  },
+  created() {
+    this.$store.dispatch(ACTIONS.USER_GET_PROFILE)
   },
   methods: {
     edit() {

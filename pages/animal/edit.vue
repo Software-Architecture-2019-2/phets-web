@@ -41,7 +41,7 @@
       </b-card>
       <b-row>
         <b-col>
-          <b-button>Guardar</b-button>
+          <b-button>Guardar Cambios</b-button>
         </b-col>
       </b-row>
     </div>
@@ -56,6 +56,10 @@ export default {
   data() {
     return {
       idAnimal: this.$route.params.id,
+      genderOptions: [
+        { text: 'Masculino', value: false },
+        { text: 'Femenino', value: true },
+      ],
     }
   },
   computed: {
@@ -66,11 +70,28 @@ export default {
       animalItem: (state) => state.animal.item,
     }),
   },
-  created() {
-    this.$store.dispatch(ACTIONS.ANIMAL_GET, this.idAnimal)
-  },
-  edit() {
-    this.$store.dispatch(ACTIONS.ANIMAL_EDIT, this.animalItem)
+  methods: {
+    edit() {
+      this.$store.dispatch(ACTIONS.ANIMAL_EDIT, this.animalItem)
+    },
+    age(birthdate) {
+      const birthday = new Date(birthdate)
+      const today = new Date()
+      let years = today.getFullYear() - birthday.getFullYear()
+      let months = today.getMonth() - birthday.getMonth()
+      if (today.getMonth() < birthday.getMonth()) {
+        months += 12
+        years--
+      }
+      let str = ' '
+      if (years) str += `${years} años`
+      if (years && months) str += ', '
+      if (months) str += `${months} meses`
+      return '-' + str
+    },
+    gender(gender) {
+      return gender ? 'Femenino' : 'Masculino'
+    },
   },
 }
 </script>

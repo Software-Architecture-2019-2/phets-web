@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="text-left">
-      <h1>Editar Mascota</h1>
+      <h1>Agregar Mascota</h1>
       <b-card
         title="Editar Mascota:"
         img-src="https://picsum.photos/600/300/?image=25"
@@ -57,13 +57,17 @@ export default {
     return {
       idAnimal: this.$route.params.id,
       animalItem: {
-          name: "",
-          breed: "",
-          gender: "",
-          adoption: false,
-          birthdate: "",
-          user: this.username,
-      }
+        name: '',
+        breed: '',
+        gender: '',
+        adoption: false,
+        birthdate: '',
+        user: this.username,
+      },
+      genderOptions: [
+        { text: 'Masculino', value: false },
+        { text: 'Femenino', value: true },
+      ],
     }
   },
   computed: {
@@ -71,8 +75,28 @@ export default {
       username: (state) => state.auth.session.username,
     }),
   },
-  created() {
-    this.$store.dispatch(ACTIONS.ANIMAL_GET, this.animalItem)
+  methods: {
+    create() {
+      this.$store.dispatch(ACTIONS.ANIMAL_GET, this.animalItem)
+    },
+    age(birthdate) {
+      const birthday = new Date(birthdate)
+      const today = new Date()
+      let years = today.getFullYear() - birthday.getFullYear()
+      let months = today.getMonth() - birthday.getMonth()
+      if (today.getMonth() < birthday.getMonth()) {
+        months += 12
+        years--
+      }
+      let str = ' '
+      if (years) str += `${years} años`
+      if (years && months) str += ', '
+      if (months) str += `${months} meses`
+      return '-' + str
+    },
+    gender(gender) {
+      return gender ? 'Femenino' : 'Masculino'
+    },
   },
 }
 </script>

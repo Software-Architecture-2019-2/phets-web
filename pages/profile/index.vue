@@ -1,5 +1,5 @@
 <template>
-  <div v-if="user" class="container">
+  <div v-if="model" class="container">
     <div class="text-left">
       <h1>Perfil</h1>
       <div>
@@ -15,32 +15,53 @@
           <b-card-text style="solid ">{{ model.description }}</b-card-text>
 
           <b-row>
-            <b-col sm="2">
+            <b-col sm="4">
               <label for="nombre-input">Nombre:</label>
             </b-col>
-            <b-col sm="10">
-              <label id="nombre-input">{{ model.name }}</label>
+            <b-col sm="8">
+              <label id="nombre-input">{{ model.firstName }}</label>
             </b-col>
           </b-row>
 
           <b-row>
-            <b-col sm="2">
+            <b-col sm="4">
+              <label for="nombre-input">Apellido:</label>
+            </b-col>
+            <b-col sm="8">
+              <label id="nombre-input">{{ model.lastName }}</label>
+            </b-col>
+          </b-row>
+
+          <b-row>
+            <b-col sm="4">
               <label for="usuario-input">Nombre de usuario:</label>
             </b-col>
-            <b-col sm="10">
+            <b-col sm="8">
               <label id="usuario-input">{{ model.username }}</label>
             </b-col>
           </b-row>
 
           <b-row>
-            <b-col sm="2">
+            <b-col sm="4">
               <label for="correo-input">Correo:</label>
             </b-col>
-            <b-col sm="10">
+            <b-col sm="8">
               <label id="correo-input">{{ model.email }}</label>
             </b-col>
           </b-row>
         </b-card>
+
+        <b-row>
+          <b-col>
+            <b-button to="/profile/edit" variant="primary">Editar perfil</b-button>
+          </b-col>
+          <b-col>
+            <b-button to="/animal/create">Agregar Mascota</b-button>
+          </b-col>
+          <b-col>
+          <b-link variant="link" @click="print()">print</b-link>
+          </b-col>
+        </b-row>
       </div>
     </div>
   </div>
@@ -54,10 +75,18 @@ export default {
   computed: {
     ...mapState({
       model: (state) => state.user.current,
+      own: (state) => state.animal.own,
     }),
   },
   created() {
     this.$store.dispatch(ACTIONS.USER_GET_PROFILE)
+    this.$store.dispatch(ACTIONS.ANIMAL_OWN)
+  },
+  methods: {
+    print(){
+      console.log(this.own)
+      console.log(this.model)
+    }
   },
 }
 </script>

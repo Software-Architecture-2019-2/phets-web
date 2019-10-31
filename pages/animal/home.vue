@@ -2,7 +2,9 @@
   <div class="container">
     <b-row>
       <b-col class="mb-4">
-        <b-button to="/animal/create" variant="primary">Agregar Mascota</b-button>
+        <b-button to="/animal/create" variant="primary"
+          >Agregar Mascota</b-button
+        >
       </b-col>
       <b-col class="mb-8">
         <div>
@@ -17,8 +19,10 @@
                 class="mb-4"
               >
                 <b-card no-body class="animal-card">
-                  <file-preview v-if="animal.media.length" 
-                  :id="animal.media[0]" />
+                  <file-preview
+                    v-if="animal.media.length"
+                    :id="animal.media[0]"
+                  />
                   <b-card-img
                     v-else
                     :src="
@@ -62,18 +66,6 @@ import { mapState } from 'vuex'
 import { ACTIONS } from '~/constants/VuexConstants'
 
 export default {
-  data() {
-    return {
-      user: {
-        id: null,
-        name: undefined,
-        lastName: undefined,
-        username: undefined,
-        email: undefined,
-        description: undefined,
-      },
-    }
-  },
   computed: {
     profile() {
       console.log(this.$store)
@@ -85,12 +77,10 @@ export default {
     }),
   },
   created() {
-    console.log(this)
+    this.$store.dispatch(ACTIONS.USER_GET_PROFILE)
+    this.$store.dispatch(ACTIONS.ANIMAL_OWN)
   },
   methods: {
-    search() {
-      this.$store.dispatch(ACTIONS.ANIMAL_OWN, this.user.username)
-    },
     age(birthdate) {
       const birthday = new Date(birthdate)
       const today = new Date()
