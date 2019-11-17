@@ -13,10 +13,10 @@ export const mutations = {
 export const actions = {
   load({ commit }) {
     if (process.browser && localStorage.getItem('token')) {
-      commit('setSession', {
-        token: localStorage.getItem('token'),
-        username: localStorage.getItem('username'),
-      })
+      const token = localStorage.getItem('token')
+      const username = localStorage.getItem('username')
+      commit('setSession', { token, username })
+      this.$axios.setToken(token, 'Bearer')
     }
   },
   async login({ commit }, login) {
@@ -34,6 +34,7 @@ export const actions = {
         localStorage.setItem('username', login.username)
       }
       commit('setSession', { token: response.token, username: login.username })
+      this.$axios.setToken(response.token, 'Bearer')
     } else {
       console.error('Login error')
     }
@@ -56,6 +57,7 @@ export const actions = {
       localStorage.removeItem('token')
       localStorage.removeItem('username')
     }
+    this.$axios.setToken(false)
   },
   async register({ commit }, register) {
     const fields = ['firstName', 'lastName', 'username', 'email', 'password']
