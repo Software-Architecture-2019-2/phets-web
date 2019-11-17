@@ -296,11 +296,9 @@ export default {
     },
     async sendMessage() {
       this.message.sent = this.username
-
       await this.$store
         .dispatch(ACTIONS.MESSAGE_SENT, this.message)
         .then((res) => {
-          this.message.content = ''
           this.$bvModal.hide('sent-message')
         })
     },
