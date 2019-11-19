@@ -12,5 +12,7 @@ RUN npm install
 # since it builds the server as well
 RUN npm run build
 
+EXPOSE 5000
+
 # start the app
 CMD [ "npm", "start" ]
