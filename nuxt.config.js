@@ -64,7 +64,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: 'http://35.224.55.174/graphql',
+    baseURL: 'http://35.223.134.6:4000/graphql',
   },
   /*
    ** Build configuration
