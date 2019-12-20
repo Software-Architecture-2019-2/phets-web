@@ -2,7 +2,7 @@
   <div class="container">
     <div class="text-left">
       <h1>Perfil Mascota</h1>
-      <pet-data :id-animal="id" />
+      <pet-data :id-animal="idAnimal" />
       <b-button to="/animal/edit" variant="primary">Editar Mascota</b-button>
     </div>
   </div>

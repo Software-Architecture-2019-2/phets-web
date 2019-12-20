@@ -5,6 +5,16 @@
     <b-form @submit.prevent="createPet">
       <b-row>
         <b-col>
+          <b-form-group label="Tipo de interacción" label-class="font-weight-bold">
+            <b-form-radio-group
+              v-model="animalItem.adoption"
+              :options="typeOptions"
+            />
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
           <b-form-group label="Nombre" label-class="font-weight-bold">
             <b-input v-model="animalItem.name" placeholder="ej: Firulais" />
           </b-form-group>
@@ -107,6 +117,10 @@ export default {
         animal_type: null,
         media: [],
       },
+      typeOptions: [
+        { text: 'Adopción', value: true },
+        { text: 'Phets', value: false },
+      ],
       genderOptions: [
         { text: 'Masculino', value: false },
         { text: 'Femenino', value: true },
@@ -121,6 +135,7 @@ export default {
           text: type.value,
         }))
         animalTypes.unshift({
+          disabled: true,
           value: null,
           text: 'Selecciona un tipo',
         })
