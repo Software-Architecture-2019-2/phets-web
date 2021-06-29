@@ -1,4 +1,4 @@
-export const FILE_MS_URI = 'http://34.66.202.216/file/'
+export const FILE_MS_URI = 'http://34.121.101.192/file/'
 
 export const HTTP_STATUS = {
   OK: 200,
