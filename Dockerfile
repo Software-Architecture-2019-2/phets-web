@@ -1,4 +1,4 @@
-FROM node:carbon-slim
+FROM node:14
 
 # create destination directory
 RUN mkdir -p /usr/src/nuxt-app
